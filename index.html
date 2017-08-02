@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<header id="header">
+				<h1 id="title">模块开发</h1>
+			</header>
+		</div>
+	</body>
+	<script>
+		var fullChange = false;
+		
+		function apiready() {
+			api.parseTapmode();
+			
+			api.openFrame({
+				name : 'main',
+				url : 'html/main.html',
+//				url : 'html/ExifInterfaceModule.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : 57,
+					w : 'auto',
+					h : 'auto'
+				}
+			});
+			
+			
+			
+			api.addEventListener({
+			    name:'noticeclicked'
+			},function(ret,err){
+			    alert("noticeclicked>>>"+JSON.stringify(ret.value));
+			});
+			
+			var aliPush = api.require('aliPush');
+			
+			if(aliPush){
+				aliPush.addEventListener({
+					name : 'onMessage'
+				}, function(ret, err) {
+					api.toast({msg:"onMessage>>>addEventListener>>>>" + JSON.stringify(ret)});
+				});
+				aliPush.addEventListener({
+					name : 'onNotification'
+				}, function(ret, err) {
+					api.toast({msg:"onNotification>>>addEventListener>>>>" + JSON.stringify(ret)});
+				});
+				aliPush.addEventListener({
+					name : 'onNotificationOpened'
+				}, function(ret, err) {
+					api.toast({msg:"onNotificationOpened>>>addEventListener>>>>" + JSON.stringify(ret)});
+				});
+				aliPush.addEventListener({
+					name : 'onNotificationRemoved'
+				}, function(ret, err) {
+					api.toast({msg:"onNotificationRemoved>>>addEventListener>>>>" + JSON.stringify(ret)});
+				});
+			}
+			
+			var demo = api.require('vpnModule');
+			api.addEventListener({
+			    name:'appintent'
+			},function(ret,err){
+				alert(JSON.stringify(ret));
+				if(demo){
+			    	if(api.systemType == 'ios'){
+				        demo.getUserInfo({
+							json: ret.iosUrl
+						},function(ret,err){
+							alert(JSON.stringify(ret));
+						});
+				    } else {
+				        demo.getUserInfo({
+				        	sourceAppId : ret.sourceAppId,
+							json:ret.ret.appParam.json
+						},function(ret,err){
+							alert(JSON.stringify(ret));
+						});
+				    }
+			    }
+			    
+			});
+		}
+	</script>
+</html>

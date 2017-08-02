@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="init()" >初始化</a>
+				<a class="button" tapmode="active" onclick="register()" >注册</a>
+				<a class="button" tapmode="active" onclick="login()" >登录</a>
+				<a class="button" tapmode="active" onclick="logout()" >登出</a>
+				<a class="button" tapmode="active" onclick="setAppInited()">通知sdk</a>
+				<a class="button" tapmode="active" onclick="registerReceiver()">注册主要的广播</a>
+				<a class="button" tapmode="active" onclick="registerNewMessageBroadcastReceiver()">添加一个接收消息的广播</a>
+				<a class="button" tapmode="active" onclick="registerAckMessageBroadcastReceiver()">添加一个消息回执的广播</a>
+				<a class="button" tapmode="active" onclick="registerDeliveryAckMessageBroadcastReceiver()">添加一个消息送达的广播</a>
+				<a class="button" tapmode="active" onclick="sendTextMessage()">发送文本信息</a>
+				<a class="button" tapmode="active" onclick="getUnreadMsgCount()">获取未读消息数</a>
+				<a class="button" tapmode="active" onclick="resetUnreadMsgCount()">未读消息数清零</a>
+				<a class="button" tapmode="active" onclick="resetAllUnreadMsgCount()">所有未读消息数清零</a>
+				<a class="button" tapmode="active" onclick="getMsgCount()">获取消息总数</a>
+				<a class="button" tapmode="active" onclick="clearConversation()">清空会话聊天记录</a>
+				<a class="button" tapmode="active" onclick="deleteConversation()">删除这个会话对象</a>
+				<a class="button" tapmode="active" onclick="removeMessage()">删除某个会话的某条聊天记录</a>
+				<a class="button" tapmode="active" onclick="deleteAllConversation()">删除所有会话记录</a>
+				<a class="button" tapmode="active" onclick="getContactUserNames()">获取好友列表</a>
+				<a class="button" tapmode="active" onclick="addContact()">添加好友</a>
+				<a class="button" tapmode="active" onclick="deleteContact()">删除好友</a>
+				<a class="button" tapmode="active" onclick="acceptInvitation()">同意好友请求</a>
+				<a class="button" tapmode="active" onclick="refuseInvitation()">拒绝好友请求</a>
+				<a class="button" tapmode="active" onclick="getBlackListUsernames()">获取黑名单列表</a>
+				<a class="button" tapmode="active" onclick="addUserToBlackList()">把用户加入到黑名单</a>
+				<a class="button" tapmode="active" onclick="deleteUserFromBlackList()">把用户从黑名单中移除</a>
+				<a class="button" tapmode="active" onclick="createPublicGroup()">创建一个公开群</a>
+				<a class="button" tapmode="active" onclick="createPrivateGroup()">创建一个私有群</a>
+				<a class="button" tapmode="active" onclick="addUsersToGroup()">添加群成员</a>
+				<a class="button" tapmode="active" onclick="removeUserFromGroup()">删除群成员</a>
+				<a class="button" tapmode="active" onclick="joinGroup()">成员加群请求</a>
+				<a class="button" tapmode="active" onclick="exitFromGroup()">退群请求</a>
+				<a class="button" tapmode="active" onclick="exitAndDeleteGroup()">解散群聊</a>
+				<a class="button" tapmode="active" onclick="blockGroupMessage()">是否屏蔽群消息</a>
+				<a class="button" tapmode="active" onclick="blockUser()">是否将群成员拉入群组的黑名单</a>
+				<a class="button" tapmode="active" onclick="getBlockedUsers()">获取群组的黑名单用户列表</a>
+				<a class="button" tapmode="active" onclick="changeGroupName()">修改群组名称</a>
+				<a class="button" tapmode="active" onclick="getAllGroups()">获取群聊列表</a>
+				<a class="button" tapmode="active" onclick="getGroup()">获取单个群聊信息</a>
+				<a class="button" tapmode="active" onclick="addGroupChangeListener()">群聊事件监听</a>
+				<a class="button" tapmode="active" onclick="addEMConnectionListener()">注册一个连接状态的监听</a>
+				<a class="button" tapmode="active" onclick="getMessage()">获取某一条信息</a>
+				<a class="button" tapmode="active" onclick="getMessages()">获得指定会话的所有信息</a>
+				<a class="button" tapmode="active" onclick="loadMoreMsg()">获取startMsgId之前的pagesize条消息</a>
+				<a class="button" tapmode="active" onclick="registerListener()">注册主要的监听</a>
+				<a class="button" tapmode="active" onclick="unregisterReceiver()">注销主要的广播</a>
+				<a class="button" tapmode="active" onclick="unregisterListener()">注销主要的监听</a>
+				<a class="button" tapmode="active" onclick="acceptInvitationGroup()">接受加入群组邀请</a>
+				<a class="button" tapmode="active" onclick="declineApplicationGroup()">拒绝加群申请</a>
+				<a class="button" tapmode="active" onclick="acceptApplicationGroup()">同意加群申请</a>
+				<a class="button" tapmode="active" onclick="setNotifyBySoundAndVibrate()">设置是否启用新消息提醒</a>
+				<a class="button" tapmode="active" onclick="setNoticeBySound()">设置是否启用新消息声音提醒</a>
+				<a class="button" tapmode="active" onclick="setNoticedByVibrate()">设置是否启用新消息震动提醒</a>
+				<a class="button" tapmode="active" onclick="setUseSpeaker()">设置语音消息播放是否设置为扬声器播放</a>
+				<a class="button" tapmode="active" onclick="setShowNotificationInBackgroud()">设置语音消息播放是否设置为扬声器播放</a>
+				<a class="button" tapmode="active" onclick="setAcceptInvitationAlways()">默认添加好友是不需要验证?</a>
+				<a class="button" tapmode="active" onclick="updateCurrentUserNick()">更新当前用户的nickname</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var demo = null;
+		apiready = function() {
+			demo = api.require('easemob');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+		function updateCurrentUserNick() {
+			demo.updateCurrentUserNick({
+				nickname: 'xxxx'
+			},function(ret, err) {
+				alert("updateCurrentUserNick>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function setAcceptInvitationAlways() {
+			demo.setAcceptInvitationAlways({
+				flag: true
+			},function(ret, err) {
+				alert("setAcceptInvitationAlways>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function setShowNotificationInBackgroud() {
+			demo.setShowNotificationInBackgroud({
+				flag: true
+			},function(ret, err) {
+				alert("setShowNotificationInBackgroud>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function setUseSpeaker() {
+			demo.setUseSpeaker({
+				flag: true
+			},function(ret, err) {
+				alert("setNoticedByVibrate>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function setNoticedByVibrate() {
+			demo.setNoticedByVibrate({
+				flag: true
+			},function(ret, err) {
+				alert("setNoticedByVibrate>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function setNoticeBySound() {
+			demo.setNoticeBySound({
+				flag: true
+			},function(ret, err) {
+				alert("setNoticeBySound>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function setNotifyBySoundAndVibrate() {
+			demo.setNotifyBySoundAndVibrate({
+				flag: true
+			},function(ret, err) {
+				alert("setNotifyBySoundAndVibrate>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function acceptApplicationGroup() {
+			demo.acceptApplicationGroup({
+				groupId: 'ret.groupId',
+			    username: 'ret.applyer'
+			},function(ret, err) {
+				alert("acceptApplicationGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function declineApplicationGroup() {
+			demo.declineApplicationGroup({
+				groupId: 'ret.groupId',
+			    username: 'ret.applyer',
+			    reason: "拒绝!"
+			},function(ret, err) {
+				alert("declineApplicationGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function acceptInvitationGroup() {
+			demo.acceptInvitationGroup({
+				groupId: 'xxxx'
+			},function(ret, err) {
+				alert("acceptInvitationGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function unregisterListener() {
+			demo.unregisterListener(function(ret, err) {
+				alert("unregisterListener>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function unregisterReceiver() {
+			demo.unregisterReceiver(function(ret, err) {
+				alert("unregisterReceiver>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function registerListener() {
+			demo.registerListener(function(ret, err) {
+				alert("registerListener>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function loadMoreMsg() {
+			demo.loadMoreMsg({
+		        conversation: "xxxx",
+		        startMsgId: "xxxx",
+		        pagesize: 20,
+		    },function(ret, err) {
+				alert("loadMoreMsg>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getMessages() {
+			demo.getMessages({ conversation: "xxxx" },function(ret, err) {
+				alert("getMessage>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getMessage() {
+			demo.getMessage({ msgId: "xxxx" },function(ret, err) {
+				alert("getMessage>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function addEMConnectionListener() {
+			demo.addEMConnectionListener(function(ret, err) {
+				alert("addEMConnectionListener>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function addGroupChangeListener() {
+			demo.addGroupChangeListener({
+				groupId: 'xxxx'
+			},function(ret, err) {
+				alert("addGroupChangeListener>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getGroup() {
+			demo.getGroup({
+				groupId: 'xxxx'
+			},function(ret, err) {
+				alert("getGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getAllGroups() {
+			demo.getAllGroups(function(ret, err) {
+				alert("getAllGroups>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function changeGroupName() {
+			demo.changeGroupName({
+				groupId: 'xxxx',
+   		 		changedGroupName: 'ffff'
+			},function(ret, err) {
+				alert("changeGroupName>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getBlockedUsers() {
+			demo.getBlockedUsers({
+				groupId: 'xxxx'
+			},function(ret, err) {
+				alert("getBlockedUsers>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function blockUser() {
+			demo.blockUser({
+				groupId: 'xxxx',
+			    username: 'xxxx',
+			    block: true
+			},function(ret, err) {
+				alert("blockUser>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function blockGroupMessage() {
+			demo.blockGroupMessage({
+				groupId: 'xxxx',
+    			block: true
+			},function(ret, err) {
+				alert("blockGroupMessage>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function exitAndDeleteGroup() {
+			demo.exitAndDeleteGroup({
+				groupId: 'xxxx'
+			},function(ret, err) {
+				alert("exitAndDeleteGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function exitFromGroup() {
+			demo.exitFromGroup({
+				groupId: 'xxxx'
+			},function(ret, err) {
+				alert("exitFromGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function joinGroup() {
+			demo.joinGroup({
+				groupId: 'xxxx',
+    			reason: 'xxxx' //理由
+			},function(ret, err) {
+				alert("joinGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function removeUserFromGroup() {
+			demo.removeUserFromGroup({
+				groupId: 'xxxx',
+    			username: 'xxxx'
+			},function(ret, err) {
+				alert("removeUserFromGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function addUsersToGroup() {
+			demo.addUsersToGroup({
+				groupId: '',
+    			members: 'xxxx,xxxx,xxx,xxxx'
+			},function(ret, err) {
+				alert("addUsersToGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function createPrivateGroup() {
+			demo.createPrivateGroup({
+				groupName: 'xxxx',
+			    desc: 'xxxx',
+			    allowInvite: true,
+			    maxUsers: 500
+			},function(ret, err) {
+				alert("createPrivateGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function createPublicGroup() {
+			demo.createPublicGroup({
+				groupName: 'xxxx',
+			    desc: 'xxxx',
+			    needApprovalRequired: true,
+			    maxUsers: 500
+			},function(ret, err) {
+				alert("createPublicGroup>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function deleteUserFromBlackList() {
+			demo.deleteUserFromBlackList({
+				username: 'xxxx'
+			},function(ret, err) {
+				alert("deleteUserFromBlackList>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function addUserToBlackList() {
+			demo.addUserToBlackList({
+				username: 'xxxx',
+   				both: true
+			},function(ret, err) {
+				alert("addUserToBlackList>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getBlackListUsernames() {
+			demo.getBlackListUsernames(function(ret, err) {
+				alert("getBlackListUsernames>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function refuseInvitation() {
+			demo.refuseInvitation({
+			    username: 'xxxx'
+			}, function(ret, err) {
+				alert("refuseInvitation>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function acceptInvitation() {
+			demo.acceptInvitation({
+			    username: 'xxxx'
+			}, function(ret, err) {
+				alert("acceptInvitation>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function deleteContact() {
+			demo.deleteContact({
+			    username: 'xxxx'
+			}, function(ret, err) {
+				alert("deleteContact>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function addContact() {
+			demo.addContact({
+			    username: 'xxxx',
+			    reason: '我是1010,请回复'
+			}, function(ret, err) {
+				alert("addContact>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getContactUserNames() {
+			demo.getContactUserNames(function(ret, err) {
+				alert("getContactUserNames>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function deleteAllConversation() {
+			demo.deleteAllConversation(function(ret, err) {
+				alert("deleteAllConversation>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function removeMessage() {
+			demo.removeMessage({
+				conversation: 'xxxx',
+				msgId: '5555'
+			}, function(ret, err) {
+				alert("removeMessage>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function deleteConversation() {
+			demo.deleteConversation({
+				conversation: 'xxxx'
+			}, function(ret, err) {
+				alert("deleteConversation>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function clearConversation() {
+			demo.clearConversation({
+				conversation: 'xxxx'
+			}, function(ret, err) {
+				alert("clearConversation>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getMsgCount() {
+			demo.getMsgCount({
+				conversation: 'xxxx'
+			}, function(ret, err) {
+				alert("getMsgCount>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function resetAllUnreadMsgCount() {
+			demo.resetAllUnreadMsgCount({
+				conversation: 'xxxx'
+			}, function(ret, err) {
+				alert("resetAllUnreadMsgCount>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function resetUnreadMsgCount() {
+			demo.resetUnreadMsgCount({
+				conversation: 'xxxx'
+			}, function(ret, err) {
+				alert("resetUnreadMsgCount>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getUnreadMsgCount() {
+			demo.getUnreadMsgCount({
+				conversation: 'xxxx'
+			}, function(ret, err) {
+				alert("getUnreadMsgCount>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		function sendTextMessage() {
+			demo.sendTextMessage({
+				chatType: 'CHAT',
+			    //toUser: '176142998',
+			    content: '我是环信',
+				ext : {
+					t1 : '133',
+					t2 : 1233,
+					t3 : 11
+				}
+			}, function(ret, err) {
+				alert("sendTextMessage>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function registerDeliveryAckMessageBroadcastReceiver() {
+			demo.registerDeliveryAckMessageBroadcastReceiver(function(ret, err) {
+				alert("registerDeliveryAckMessageBroadcastReceiver>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+		function registerAckMessageBroadcastReceiver() {
+			demo.registerAckMessageBroadcastReceiver(function(ret, err) {
+				alert("registerAckMessageBroadcastReceiver>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+		
+		function registerNewMessageBroadcastReceiver() {
+			demo.registerNewMessageBroadcastReceiver(function(ret, err) {
+				alert("registerNewMessageBroadcastReceiver>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+		
+		function registerReceiver() {
+			demo.registerReceiver(function(ret, err) {
+				alert("registerReceiver>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+		
+		function setAppInited() {
+			demo.setAppInited(function(ret, err) {
+				alert("setAppInited>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+		
+		function logout() {
+			demo.logout(function(ret, err) {
+				alert("logout>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+		
+		function init() {
+			demo.init({
+				appkey : '1548907363#shopapp'
+			}, function(ret, err) {
+				alert("init>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+
+		function register() {
+			demo.register({
+				username : '176142998',
+				pwd : '123456'
+			}, function(ret, err) {
+				alert("register>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+		
+		function login() {
+			demo.login({
+				username : '176142998',
+				pwd : '123456'
+			}, function(ret, err) {
+				alert("login>>"+JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+	</script>
+</html>

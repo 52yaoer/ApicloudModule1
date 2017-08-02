@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="netplay()">音乐播放</a>
+				<a class="button" tapmode="active" onclick="show()">界面回来</a>
+				<a class="button" tapmode="active" onclick="close()">界面关闭</a>
+				<a class="button" tapmode="active" onclick="stop()">停止播放</a>
+				<a class="button" tapmode="active" onclick="addMusic()">添加单条音乐</a>
+				<a class="button" tapmode="active" onclick="selectMusic()">选择某条音乐</a>
+				<a class="button" tapmode="active" onclick="getCurrentPlayer()">获取当前播放音乐</a>
+			</div>
+		</div>
+	</body>
+	<script>
+		var demo;
+		function getCurrentPlayer() {
+			demo.getCurrentPlayer(function(ret, err) {
+				alert("getCurrentPlayer|" + JSON.stringify(ret));
+			});
+		}
+		
+		function addMusic() {
+			demo.addMusic({
+				data : {
+					name : "小苹果3666(widget://)",
+					filename : "widget://res/MP3s/cemo111.mp3",
+					singer : "666666",
+					icon : "widget://res/Images/1.jpg",
+					other : 5,
+					fenxiangSum : 3,
+					downmusicSum : 33,
+					pinglunSum : 44,
+					background : "#DDA0DD"
+				}
+			}, function(ret, err) {
+				alert("addMusic|" + JSON.stringify(ret));
+			});
+		}
+
+		function selectMusic() {
+			demo.selectMusic({
+				index : 4
+			}, function(ret, err) {
+				alert("selectMusic|" + JSON.stringify(ret));
+			});
+		}
+
+		function netplay() {
+			demo.playMusic({
+				musics : [{
+					name : "小苹果1(http://)",
+					filename : "http://7xwc0t.com1.z0.glb.clouddn.com/apicloud/619a3762a2be7650c4345c1d7c23575e.mp3",
+					singer : "筷子兄弟",
+					icon : "http://7xwc0t.com1.z0.glb.clouddn.com/apicloud/3a3d926564ab4c5b2292744d5ffb0ec6.jpg",
+					other : 1,
+					fenxiangSum : 43,
+					downmusicSum : 12,
+					pinglunSum : 45,
+					background : "http://7xwc0t.com1.z0.glb.clouddn.com/apicloud/3a3d926564ab4c5b2292744d5ffb0ec6.jpg"
+				}, {
+					name : "小苹果2(http://)",
+					filename : "http://7xwc0t.com1.z0.glb.clouddn.com/apicloud/28643b3e661abe4dfb3da33f2d1e2b59.mp3",
+					singer : "筷子兄弟",
+					icon : "http://7xwc0t.com1.z0.glb.clouddn.com/apicloud/7c23cd15fc8fe841ab20f6c87d47ae59.jpg",
+					other : 2,
+					fenxiangSum : 55,
+					downmusicSum : 66,
+					pinglunSum : 233,
+					background : "#800080"
+				}, {
+					name : "小苹果3(widget://)",
+					filename : "widget://res/MP3s/cemo111.mp3",
+					singer : "筷子兄弟",
+					icon : "widget://res/Images/1.jpg",
+					other : 3,
+					fenxiangSum : 123,
+					downmusicSum : 889,
+					pinglunSum : 233,
+					background : "#5F9EA0"
+				}, {
+					name : "传奇4(fs://)",
+					filename : "fs://shangxuege.mp3",
+					singer : "王菲",
+					icon : "widget://res/Images/nanquan@2x.jpg",
+					other : 4,
+					fenxiangSum : 123,
+					downmusicSum : 889,
+					pinglunSum : 233,
+					background : "#00FF7F"
+				}],
+                ttf:"widget://res/UKIJTor.ttf",
+                downmusicBtn : false,
+                fenxiangBtn : true,
+                pinglunBtn : true,
+                nameTextSize : 20,
+                singerTextSize : 16,
+                isShowUi : false
+			}, function(ret, err) {
+			});
+		}
+
+		function show() {
+			demo.showUI();
+		}
+
+		function close() {
+			demo.closeUI();
+		}
+
+		function stop() {
+			demo.stopMusic();
+		}
+
+		function apiready() {
+			demo = api.require('uimusic');
+			demo.addEventListener({
+				name : "closeui"
+			}, function(ret, err) {
+				alert("closeui>>addEventListener|" + JSON.stringify(ret));
+			});
+			demo.addEventListener({
+				name : "pinglun"
+			}, function(ret, err) {
+				alert("pinglun>>addEventListener|" + JSON.stringify(ret));
+			});
+			demo.addEventListener({
+				name : "fenxiang"
+			}, function(ret, err) {
+				alert("fenxiang>>addEventListener|" + JSON.stringify(ret));
+			});
+			demo.addEventListener({
+				name : "downmusic"
+			}, function(ret, err) {
+				alert("downmusic>>addEventListener|" + JSON.stringify(ret));
+			});
+			
+			demo.addEventListener({
+				name : "sharetop"
+			}, function(ret, err) {
+				alert("sharetop>>addEventListener|" + JSON.stringify(ret));
+			});
+		}
+	</script>
+</html>

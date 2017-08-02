@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<a class="button" tapmode="active" onclick="openVrPlayer()">打开vr视频</a>
+				<a class="button" tapmode="active" onclick="switchDisplay(0)">显示模式(正常)</a>
+				<a class="button" tapmode="active" onclick="switchDisplay(1)">显示模式(双镜头)</a>
+				<a class="button" tapmode="active" onclick="switchInteractive(0)">触摸模式(运动)</a>
+				<a class="button" tapmode="active" onclick="switchInteractive(1)">触摸模式(触摸)</a>
+				<a class="button" tapmode="active" onclick="switchInteractive(2)">触摸模式(运动|触摸)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(0)">投影(球体)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(1)">投影(圆顶180)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(2)">投影(圆顶230)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(3)">投影(圆顶向上180)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(4)">投影(圆顶向上230)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(5)">投影(立体)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(6)">投影(平面铺满)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(7)">投影(平面剪裁)</a>
+				<a class="button" tapmode="active" onclick="switchProjection(8)">投影(平面全铺)</a>
+				<a class="button" tapmode="active" onclick="closeVrPlayer()">关闭</a>
+				
+				<a class="button" tapmode="active" onclick="fullDemo()">全屏demo</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+		function openVrPlayer() {
+			api.setKeepScreenOn({
+			    keepOn: true
+			});
+			demo.openVrPlayer({
+				rect : {
+					x : 0,
+					y : 10,
+					w : api.frameWidth,
+					h : 300
+				},
+				fixedOn : api.frameName,
+				fixed : true,
+				//url : 'widget://res/skyrim360.mp4',
+				url:"http://7xue4m.com1.z0.glb.clouddn.com/apicloud/93310f683b752242ee3616bece8f3673.mp4",
+				//url : "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+				interactive : 0,
+				display : 0,
+				projection : 0
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function switchDisplay(index){
+			demo.switchDisplay({
+				display : index
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function switchInteractive(index){
+			demo.switchInteractive({
+				interactive : index
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function switchProjection(index){
+			demo.switchProjection({
+				projection : index
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function closeVrPlayer(){
+			demo.closeVrPlayer(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function fullDemo(){
+			api.openWin({
+	            name: 'vrMain',
+	            url: 'vrMain.html'
+            });
+		}
+		
+		function apiready() {
+			demo = api.require('vrPlayer');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+			demo.addEventListener(function(ret, err) {
+				alert("addEventListener>>   "+ JSON.stringify(ret));
+			});
+		}
+	</script>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+
+				deviceid:<input type="text" name="deviceid" id="deviceid" value="F3686EAD"/><br />
+				password:<input type="text" name="password" id="password" value="12345678"/>
+				<a class="button" tapmode="active" onclick="initlock()">合并初始化和开锁</a>
+				<a class="button" tapmode="active" onclick="init()">单独初始化</a>
+				<a class="button" tapmode="active" onclick="lock()">单独开锁</a>
+				<a class="button" tapmode="active" onclick="unlock()">关锁</a>
+			</div>
+		</div>
+	</body>
+	<script>
+		var demo;
+		function initlock() {
+			var _deviceid = document.getElementById("deviceid").value;
+			var _password = document.getElementById("password").value;
+			if(_deviceid!='' && _password!=''){
+				demo.init({
+					deviceid : _deviceid,
+					pass : _password
+				}, function(ret, err) {
+					alert("initlock:init>"+JSON.stringify(ret)+"    "+JSON.stringify(err))
+					if(ret.status){
+						demo.lock(function(ret, err) {
+							alert("initlock:lock>"+JSON.stringify(ret)+"    "+JSON.stringify(err));
+						});
+					}
+				});
+			}else{
+				alert('请填写参数');
+			}
+		}
+		
+		
+		function init() {
+			var _deviceid = document.getElementById("deviceid").value;
+			var _password = document.getElementById("password").value;
+			if(_deviceid!='' && _password!=''){
+				demo.init({
+					deviceid : _deviceid,
+					pass : _password
+				}, function(ret, err) {
+					alert("init:"+JSON.stringify(ret)+"    "+JSON.stringify(err))
+				});
+			}else{
+				alert('请填写参数');
+			}
+		}
+		
+		function lock() {
+			demo.lock(function(ret, err) {
+				alert("lock:"+JSON.stringify(ret)+"    "+JSON.stringify(err));
+			});
+		}
+		
+		
+		
+		function unlock() {
+			demo.unlock(function(ret, err) {
+				alert("unlock:"+JSON.stringify(ret)+"    "+JSON.stringify(err));
+			});
+		}
+
+		function apiready() {
+			demo = api.require('lock');
+		}
+	</script>
+</html>

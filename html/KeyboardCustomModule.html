@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+				
+				<a class="button" tapmode="active" onclick="openEditText()">打开输入框</a>
+				<a class="button" tapmode="active" onclick="openCustomKeyboard()">打开字母键盘</a>
+				<a class="button" tapmode="active" onclick="hiddenCustomKeyboard()">隐藏字母键盘</a>
+				<a class="button" tapmode="active" onclick="showCustomKeyboard()">显示字母键盘</a>
+				<a class="button" tapmode="active" onclick="closeCustomKeyboard()">关闭字母键盘</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+		
+		function openEditText() {
+			demo.openEditText({
+				x : 0,
+				y : 0,
+				h: 100,
+				fixedOn : api.frameName,
+				fixed : true
+			},function(ret, err) {
+				if(ret.enenType=='touch'){
+					openCustomKeyboard();
+				}
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+		
+		
+		function hiddenCustomKeyboard() {
+			demo.hiddenCustomKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+
+		function showCustomKeyboard() {
+			demo.showCustomKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+
+		function closeCustomKeyboard() {
+			demo.closeCustomKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+		
+		function openCustomKeyboard() {
+			demo.openCustomKeyboard({
+				x : 0,
+				y : api.frameHeight - 213,
+				fixedOn : api.frameName,
+				fixed : true,
+				ttf:"widget://res/abt.ttf",
+				returnLabel : 'نن',
+				spaceLabel : 'مم',
+				charDefault : ['چ','ۋ','ء','ر','ت','ي','ۇ','ڭ','و','پ','ھ','س','د','ا','ف','ە','گ','ى','ح','ق','ج','ك','ل','ز','ش','ع','ۆ','ب','ن','م','،','.','؟'],
+			}, function(ret, err) {
+//				if (ret.enenType == 'click') {
+//					var _deviceid = document.getElementById("deviceid").value;
+//					document.getElementById("deviceid").value = _deviceid + ret.value;
+//				} else {
+					api.toast({
+						msg : JSON.stringify(ret)
+					});
+//				}
+				if (ret.enenType == 'open') {
+
+				}else{
+					document.getElementById("deviceid").value = ret.completeValue;
+				}
+			});
+		}
+		
+
+		function apiready() {
+			demo = api.require('keyboardCustom');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+	</script>
+</html>

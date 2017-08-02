@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="startBanner()">显示横幅广告</a>
+				<a class="button" tapmode="active" onclick="initInterstitial()">初始化插页广告</a>
+				<a class="button" tapmode="active" onclick="startInterstitial()">显示插页广告</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var demo = null;
+		apiready = function() {
+			demo = api.require('admob');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+		function startBanner() {
+			var param = {
+				rect : {
+					x : 0,
+					y : 300,
+					w : api.frameWidth,
+					h : 50
+				},
+				//      adUnitID : 'ca-app-pub-9654159817120044/7337221015',
+				adUnitID : 'ca-app-pub-9666494030184950/5729726426', // ios my
+				fixedOn : api.frameName,
+				fixed : true
+			};
+			demo.startBanner(param, function(ret, err) {
+				//alert(JSON.stringify(ret));
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+
+		function initInterstitial() {
+			demo.initInterstitial({
+				adUnitID : 'ca-app-pub-9666494030184950/3598688422',
+			}, function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret) + "   " + JSON.stringify(err)
+				});
+			});
+		}
+
+		function startInterstitial() {
+			demo.startInterstitial(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret) + "   " + JSON.stringify(err)
+				});
+			});
+		}
+	</script>
+</html>

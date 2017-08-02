@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	</head>
+	<body></body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var demo;
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('leCloudPlay');
+			
+			var previewWidth = 800;
+			var previewHeight = 600;
+			if(api.systemType=='ios'){
+				previewWidth = 1136;
+				previewHeight = 640;
+			}
+			demo.playUrl({
+				pageType : 'Frame',
+				x : 0,
+				y : 0,
+				w : api.frameWidth,
+				h : api.frameHeight,
+				playUrl : "rtmp://7936.mpull.live.lecloud.com/live/testpush?&tm=20160801130626&sign=5086bc042a26eeffa84ad8de54b6f003",
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+				//alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		};
+	</script>
+</html>

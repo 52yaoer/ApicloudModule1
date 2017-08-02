@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br /><br /><br />
+				<a class="button" tapmode="active" onclick="getUserInfo()">获取用户信息</a>
+			</div>
+		</div>
+	</body>
+	<script>
+		var demo;
+		function getUserInfo(){
+			demo.getUserInfo({
+				json:'[{"userInfo":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iR0JLIj8+Cgo8dXNlcmluZm8+CiAgPHVzZXJpZD4xMjIyOTQ8L3VzZXJpZD4KICA8dXNlcm5hbWU+bHh6d3Rlc3QyQGd6cHMuY29ycC5jc2c8L3VzZXJuYW1lPgogIDx1c2VyZGVzYz7Bqs/r1tDN+7LiytTVyrrFPC91c2VyZGVzYz4KICA8c2lnbnRpbWU+MjAxMi0xMC0yNCAxMToyNTo1NDwvc2lnbnRpbWU+CiAgPHBlcmlvZHRpbWU+MzYwMDAwMDA8L3BlcmlvZHRpbWU+CiAgPG1vYmlsZT4xMzgyNDQ2NDUxMjwvbW9iaWxlPgogIDxpbWVpPjM1NDU3OTA0MTQzMTQyNTwvaW1laT4KICA8aW1zaT40NjAwMTU3MjIwMDQ1MDI8L2ltc2k+CiAgPHB1Ymxpc2h0aW1lPjIwMTItMTAtMjMgMTY6MTU6MTI8L3B1Ymxpc2h0aW1lPgogIDxvcmdpZD4yMzE0PC9vcmdpZD4KICA8YmFzZWF0dHI+CiAgICA8bmFtZT5ndWlkPC9uYW1lPgogICAgPHZhbHVlPjFBNzRCRDJGRUExQjQ0OEM5Njk1RTRBRUQ1RTIyM0EzPC92YWx1ZT4KICA8L2Jhc2VhdHRyPgogIDxiYXNlYXR0cj4KICAgIDxuYW1lPkFE0/LVy7rFPC9uYW1lPgogICAgPHZhbHVlPmx4end0ZXN0MkBnenBzLmNvcnAuY3NnPC92YWx1ZT4KICA8L2Jhc2VhdHRyPgogIDxzdGF0PjA8L3N0YXQ+CiAgPEFQUFJvbGU+CiAgICA8YXBwaWQ+MzI2PC9hcHBpZD4KICAgIDxyb2xlPnVzZXI8L3JvbGU+CiAgPC9BUFBSb2xlPgogIDxBUFBSb2xlPgogICAgPGFwcGlkPjMyNDwvYXBwaWQ+CiAgICA8cm9sZT51c2VyPC9yb2xlPgogIDwvQVBQUm9sZT4KICA8QVBQUm9sZT4KICAgIDxhcHBpZD4zMjM8L2FwcGlkPgogICAgPHJvbGU+dXNlcjwvcm9sZT4KICA8L0FQUFJvbGU+CiAgPEFQUFJvbGU+CiAgICA8YXBwaWQ+MjE4PC9hcHBpZD4KICAgIDxyb2xlPnVzZXI8L3JvbGU+CiAgPC9BUFBSb2xlPgogIDxBUFBSb2xlPgogICAgPGFwcGlkPjMyMDwvYXBwaWQ+CiAgICA8cm9sZT51c2VyPC9yb2xlPgogIDwvQVBQUm9sZT4KICA8QVBQUm9sZT4KICAgIDxhcHBpZD4xOTg8L2FwcGlkPgogICAgPHJvbGU+dXNlcjwvcm9sZT4KICA8L0FQUFJvbGU+CiAgPEFQUFJvbGU+CiAgICA8YXBwaWQ+MTk2PC9hcHBpZD4KICAgIDxyb2xlPnVzZXI8L3JvbGU+CiAgPC9BUFBSb2xlPgogIDxBUFBSb2xlPgogICAgPGFwcGlkPjIyMzwvYXBwaWQ+CiAgICA8cm9sZT51c2VyPC9yb2xlPgogIDwvQVBQUm9sZT4KICA8QVBQUm9sZT4KICAgIDxhcHBpZD4yNTE8L2FwcGlkPgogICAgPHJvbGU+dXNlcjwvcm9sZT4KICA8L0FQUFJvbGU+CiAgPEFQUFJvbGU+CiAgICA8YXBwaWQ+MjgyPC9hcHBpZD4KICAgIDxyb2xlPnVzZXI8L3JvbGU+CiAgPC9BUFBSb2xlPgogIDxBUFBSb2xlPgogICAgPGFwcGlkPjI1MDwvYXBwaWQ+CiAgICA8cm9sZT51c2VyPC9yb2xlPgogIDwvQVBQUm9sZT4KICA8QVBQUm9sZT4KICAgIDxhcHBpZD4yODE8L2FwcGlkPgogICAgPHJvbGU+dXNlcjwvcm9sZT4KICA8L0FQUFJvbGU+CiAgPEFQUFJvbGU+CiAgICA8YXBwaWQ+MjgwPC9hcHBpZD4KICAgIDxyb2xlPnVzZXI8L3JvbGU+CiAgPC9BUFBSb2xlPgogIDxBUFBSb2xlPgogICAgPGFwcGlkPjM0NDwvYXBwaWQ+CiAgICA8cm9sZT51c2VyPC9yb2xlPgogIDwvQVBQUm9sZT4KICA8QVBQUm9sZT4KICAgIDxhcHBpZD4zNDM8L2FwcGlkPgogICAgPHJvbGU+dXNlcjwvcm9sZT4KICA8L0FQUFJvbGU+CiAgPEFQUFJvbGU+CiAgICA8YXBwaWQ+MzQyPC9hcHBpZD4KICAgIDxyb2xlPnVzZXI8L3JvbGU+CiAgPC9BUFBSb2xlPgogIDxBUFBSb2xlPgogICAgPGFwcGlkPjM0MTwvYXBwaWQ+CiAgICA8cm9sZT51c2VyPC9yb2xlPgogIDwvQVBQUm9sZT4KICA8QVBQUm9sZT4KICAgIDxhcHBpZD4yNjY8L2FwcGlkPgogICAgPHJvbGU+dXNlcjwvcm9sZT4KICA8L0FQUFJvbGU+CiAgPEFQUFJvbGU+CiAgICA8YXBwaWQ+MjAzPC9hcHBpZD4KICAgIDxyb2xlPnVzZXI8L3JvbGU+CiAgPC9BUFBSb2xlPgogIDxBUFBSb2xlPgogICAgPGFwcGlkPjIwMDwvYXBwaWQ+CiAgICA8cm9sZT51c2VyPC9yb2xlPgogIDwvQVBQUm9sZT4KPC91c2VyaW5mbz4K","cookieInfo":"MIIB5TCCAb0TCk1ZVF9VQU1fMDETBjEyMjI5NAwXbHh6d3Rlc3QyQGd6cHMuY29ycC5jc2cTBDIzMTQTEzIwMTItMTAtMjMgMTY6MTU6MTITEzIwMTItMTAtMjQgMTE6MjU6NTQTCDM2MDAwMDAwExYxNzIuMzEuMTcuMTMzLlZQTj09PT09DAIxOTADAgEAMIIBLDENMAsTAzMyNgwEdXNlcjENMAsTAzMyNAwEdXNlcjENMAsTAzMyMwwEdXNlcjENMAsTAzIxOAwEdXNlcjENMAsTAzMyMAwEdXNlcjENMAsTAzE5OAwEdXNlcjENMAsTAzE5NgwEdXNlcjENMAsTAzIyMwwEdXNlcjENMAsTAzI1MQwEdXNlcjENMAsTAzI4MgwEdXNlcjENMAsTAzI1MAwEdXNlcjENMAsTAzI4MQwEdXNlcjENMAsTAzI4MAwEdXNlcjENMAsTAzM0NAwEdXNlcjENMAsTAzM0MwwEdXNlcjENMAsTAzM0MgwEdXNlcjENMAsTAzM0MQwEdXNlcjENMAsTAzI2NgwEdXNlcjENMAsTAzIwMwwEdXNlcjENMAsTAzIwMAwEdXNlcjADAgEAMAwGCCqGSIb3DQIFBQADFIWQUnf59i57+qYFYPKYFaJJRJYC"}]'
+			},function(ret,err){
+				alert(JSON.stringify(ret));
+			});
+		}
+//		com.sangfor2.keychaintest2
+		function apiready() {
+			demo = api.require('vpnModule');
+			if(!demo){
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+	</script>
+</html>

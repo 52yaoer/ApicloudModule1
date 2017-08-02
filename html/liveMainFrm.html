@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	</head>
+	<body></body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var demo;
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('vcloudLive');
+			
+			demo.pushLiveInit({
+				x : 0,
+				y : 0,
+				w : api.frameWidth,
+				h : api.frameHeight,
+				fixedOn : api.frameName,
+				fixed : true,
+				orientation : 1,//1 PORTRAIT 2 UPDOWN 3 RIGHT 4 LEFT
+				cameraPosition : 1,//1 FRONT 2 BACK
+				bitrate : 500000,//码率
+				fps : 24,//帧率
+				streamingQuality : 4,//1 LOW低清 352*288 2 MEDIUM标清 480*360 3 HIGH高清 640*480 4 SUPER高清 960*540 5 SUPER_HIGH 超高清 (1280*720)
+				videoRenderMode : 2,//1 采集多大分辨率，则显示多大分辨率 2设置为16:9模式
+				pushUrl:"rtmp://pd43a08c7.live.126.net/live/9d880405af4d427983a9b374ee54bacb?wsSecret=51a67a8e34e93ca34d7da3627869c37d&wsTime=1485157199",
+				filterOn : true //是否开启滤镜
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+//				demo.startLive({
+//					pushUrl:"rtmp://p56d785b4.live.126.net/live/05965c485ca640f693861f87ca71d68a?wsSecret=672fc37f4a66b60f4208cdbf12c05ec1&wsTime=1473839561",
+//				}, function(ret, err) {
+//					alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+//				});
+			});
+			
+			
+			api.openFrame({
+				name : 'live_btn',
+				url : 'live_btn.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : 0,
+					h : api.frameHeight
+				},
+				bgColor : 'rgba(51,51,51,0)'
+			})
+		};
+	</script>
+</html>

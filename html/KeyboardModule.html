@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<input type="text" class="input1" name="deviceid" id="deviceid" size="40" value="" readonly="readonly"/>
+				<a class="button" tapmode="active" onclick="openKeyboard()">打开数字键盘</a>
+				<a class="button" tapmode="active" onclick="hiddenKeyboard()">隐藏数字键盘</a>
+				<a class="button" tapmode="active" onclick="showKeyboard()">显示数字键盘</a>
+				<a class="button" tapmode="active" onclick="closeKeyboard()">关闭数字键盘</a>
+				
+				
+				<a class="button" tapmode="active" onclick="openEditText()">打开输入框</a>
+				
+				
+				<a class="button" tapmode="active" onclick="openCustomKeyboard()">打开字母键盘</a>
+				<a class="button" tapmode="active" onclick="hiddenCustomKeyboard()">隐藏字母键盘</a>
+				<a class="button" tapmode="active" onclick="showCustomKeyboard()">显示字母键盘</a>
+				<a class="button" tapmode="active" onclick="closeCustomKeyboard()">关闭字母键盘</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+		
+		function openEditText() {
+			demo.openEditText({
+				x : 0,
+				y : 0,
+				h: 100,
+				fixedOn : api.frameName,
+				fixed : true,
+				message : "消息记录。",
+				placeholder : "你想说点什么？"
+			},function(ret, err) {
+				if(ret.enenType=='touch'){
+					openCustomKeyboard();
+				}
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+		
+		function hiddenCustomKeyboard() {
+			demo.hiddenCustomKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+
+		function showCustomKeyboard() {
+			demo.showCustomKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+
+		function closeCustomKeyboard() {
+			demo.closeCustomKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+		
+		function openCustomKeyboard() {
+			demo.openCustomKeyboard({
+				x : 0,
+				y : api.frameHeight - 203,
+				fixedOn : api.frameName,
+				fixed : false,
+				
+				altLabel1 : '符号',
+				altLabel2 : '英文',
+				returnLabel : '确定',
+				spaceLabel : '空格',
+				charDefault : ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m'],
+				charShift : ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M'],
+				charAlt : ['1','2','3','4','5','6','7','8','9','0','-','+','{','}','|','\\',':','"','<','>','?','c','v','b','n','m'],
+			}, function(ret, err) {
+				if (ret.enenType == 'click') {
+					var _deviceid = document.getElementById("deviceid").value;
+					document.getElementById("deviceid").value = _deviceid + ret.value;
+				} else {
+					api.toast({
+						msg : JSON.stringify(ret)
+					});
+				}
+			});
+		}
+		
+		function openKeyboard() {
+			demo.openKeyboard({
+				x : 0,
+				y : api.frameHeight - 203,
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+				if (ret.enenType == 'click') {
+					var _deviceid = document.getElementById("deviceid").value;
+					document.getElementById("deviceid").value = _deviceid + ret.value;
+				} else {
+					api.toast({
+						msg : JSON.stringify(ret)
+					});
+				}
+			});
+		}
+
+		function hiddenKeyboard() {
+			demo.hiddenKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+
+		function showKeyboard() {
+			demo.showKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+
+		function closeKeyboard() {
+			demo.closeKeyboard(function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+
+		function apiready() {
+			demo = api.require('keyboard');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+	</script>
+</html>

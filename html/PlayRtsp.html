@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+				<input type="text" class="input1" name="deviceid" id="deviceid" size="40" value="http://7o50kb.com2.z0.glb.qiniucdn.com/c6.mp4"/>
+				<a class="button" tapmode="active" onclick="init()">初始化</a>
+				<a class="button" tapmode="active" onclick="outRtsp()">Rtsp直播</a>
+				<a class="button" tapmode="active" onclick="pause()">暂停</a>
+				<a class="button" tapmode="active" onclick="start()">播放</a>
+				<a class="button" tapmode="active" onclick="stop()">停止</a>
+				<a class="button" tapmode="active" onclick="isFullScreen()">获取是否全屏状态</a>
+				<a class="button" tapmode="active" onclick="full()">全屏播放</a>
+				<a class="button" tapmode="active" onclick="unfull()">退出全屏</a>
+				<a class="button" tapmode="active" onclick="setVolume100()">最大声音</a>
+				<a class="button" tapmode="active" onclick="setVolume50()">50声音</a>
+				<a class="button" tapmode="active" onclick="setVolume0()">最小声音</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo ;
+		function init() {
+			demo.init({
+				doubleClick : false,
+				isLocked : true
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function setVolume0() {
+			demo.setVolume({
+				volume : 0
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function setVolume50() {
+			demo.setVolume({
+				volume : 50
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function setVolume100() {
+			demo.setVolume({
+				volume : 100
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		
+		//rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil
+		//http://dxdemo.jiefo.com/WebCourseInfo/video.flv
+		function outRtsp() {
+			var _deviceid = document.getElementById("deviceid").value;
+			demo.play({
+				pageType:'Window',
+				x : 0,
+				y : 0,
+				h : 250,
+				fixedOn : api.frameName,
+				url :_deviceid// "rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp"
+			}, function(ret, err) {
+			});
+		}
+		
+		function pause() {
+			demo.pause();
+		}
+		
+		function start() {
+			demo.start();
+		}
+		
+		function stop() {
+			demo.stop();
+		}
+		
+		function full() {
+			demo.full(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function unfull() {
+			demo.unfull(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function isFullScreen() {
+			demo.isFullScreen(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function apiready() {
+			demo = api.require('playRtsp');
+			if(!demo){
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+	</script>
+</html>

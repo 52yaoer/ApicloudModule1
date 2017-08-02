@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<a class="button" tapmode="active" onclick="playLive()">直播播放</a>
+				<a class="button" tapmode="active" onclick="pause()">暂停播放</a>
+				<a class="button" tapmode="active" onclick="start()">开始播放</a>
+				<a class="button" tapmode="active" onclick="stop()">停止播放</a>
+				<a class="button" tapmode="active" onclick="getDuration()">总时长</a>
+				<a class="button" tapmode="active" onclick="getCurrentPosition()">已播放时长</a>
+				<a class="button" tapmode="active" onclick="isFullScreen()">是否全屏</a>
+				<a class="button" tapmode="active" onclick="full()">进入全屏</a>
+				<a class="button" tapmode="active" onclick="unfull()">退出全屏</a>
+				<a class="button" tapmode="active" onclick="fullDemo()">全屏demo</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+	
+		function playLive() {
+			demo.playLive({
+				x : 0,
+				y : 0,
+				w : api.frameWidth,
+				h : 250,
+				fixedOn : api.frameName,
+				fixed : true,
+//				playUrl:"rtmp://live.hkstv.hk.lxdns.com/live/hks",
+				playUrl:"rtmp://vdl471397e0.live.126.net/live/5bc00f3e35334f4aacad4fcd07a796d9",
+//				playUrl:"http://cnhlsvodhls01.e.vhall.com/vhalllive/756634579/fulllist.m3u8 ",
+				mediaType : "livestream",
+				decodeType : "hardware"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function pause() {
+			demo.pause(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function start() {
+			demo.start(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function stop() {
+			demo.stop(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function getDuration() {
+			demo.getDuration(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function getCurrentPosition() {
+			demo.getCurrentPosition(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function isFullScreen() {
+			demo.isFullScreen(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function full() {
+			demo.full(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+				if(ret.status){
+					api.openFrame({
+						name : 'play_btn1',
+						url : 'play_btn1.html',
+						bounces : true,
+						rect : {
+							x : 0,
+							y : 0,
+							h : api.frameHeight
+						},
+						bgColor : 'rgba(51,51,51,0)'
+					})
+				}
+				
+			});
+		}
+		
+		function unfull() {
+			demo.unfull(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function fullDemo(){
+			api.openWin({
+	            name: 'playMain',
+	            url: 'playMain.html'
+            });
+		}
+		
+		
+		function apiready() {
+			demo = api.require('vcloudPlay');
+			if(!demo){
+				alert("请添加模块后编译");
+				return;
+			}
+			demo.addEventListener({
+				name:"playErrorListener"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+			
+			api.addEventListener({
+	            name:'hiddenPlayBtn'
+            },function(ret,err){
+            	api.closeFrame({
+	                name: 'play_btn1'
+                });
+            });
+		}
+	</script>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="setExifInfo()">设置图片属性</a>
+				<a class="button" tapmode="active" onclick="getExifInfo()">读取图片属性</a>
+				<a class="button" tapmode="active" onclick="setDegreeExif()">旋转图片</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var demo = null;
+		var picUrl1 = "widget://image/IMG_1769.JPG";
+		
+		apiready = function() {
+			demo = api.require('exifInterface');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+			
+			var fs = api.require('fs');
+			fs.copyTo({
+				oldPath : 'widget://image/IMG_1769.JPG',
+				newPath : 'fs://'
+			}, function(ret, err) {
+				picUrl1 = 'fs://IMG_1769.JPG';
+//				alert("复制音乐文件到fs://>>"+JSON.stringify(ret));
+			});
+		}
+		function setExifInfo() {
+			var param = {
+				picPath : picUrl1,
+				latitude : 30.67261,
+				longitude : 104.0457
+			};
+			demo.setExifInfo(param, function(ret, err) {
+				alert(JSON.stringify(ret) + " " + JSON.stringify(err));
+				if (ret.status) {
+					picUrl1 = ret.newPicPath;
+				}
+			});
+		}
+
+		function getExifInfo() {
+			var param = {
+				picPath : picUrl1
+			};
+			demo.getExifInfo(param, function(ret, err) {
+				alert(JSON.stringify(ret) + " " + JSON.stringify(err));
+			});
+		}
+
+		var picUrl2 = "fs://IMG_1769.JPG";
+		var degrees2 = 0
+		function setDegreeExif() {
+			
+			if(degrees2==270){
+				degrees2 = 0;
+			}else{
+				degrees2 = degrees2+90;
+			}
+			
+			var param = {
+				picPath : picUrl2,
+				degrees : degrees2
+			};
+			
+			alert("param>>>"+JSON.stringify(param));
+			
+			
+			demo.setDegreeExif(param, function(ret, err) {
+				alert("setDegreeExif>>>"+JSON.stringify(ret) + " " + JSON.stringify(err));
+				//picUrl2 = ret.newPicPath;
+				if (ret.status) {
+					api.openWin({
+						name : '122312',
+						url : ret.newPicPath
+					});
+				}
+			});
+		}
+	</script>
+</html>

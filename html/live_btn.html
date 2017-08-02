@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>AUI快速完成布局</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui.2.0.css" />
+		<style>
+			body,section {
+				background-color: transparent !important;
+				padding: 0;
+				margin: 0;
+			}
+			
+			.redtext{
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<section class="aui-grid">
+			<div class="aui-row redtext">
+				<div class="aui-col-xs-3" onclick="startLive()">
+					<i class="aui-iconfont aui-icon-home"></i>
+					<div class="aui-grid-label">
+						开始直播
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="stopLive()">
+					<i class="aui-iconfont aui-icon-gear"></i>
+					<div class="aui-grid-label">
+						停止直播
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="startMusic()">
+					<i class="aui-iconfont aui-icon-map"></i>
+					<div class="aui-grid-label">
+						播放音乐
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="stopMusic()">
+					<i class="aui-iconfont aui-icon-calendar"></i>
+					<div class="aui-grid-label">
+						停止音乐
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="switchCamera()">
+					<i class="aui-iconfont aui-icon-date"></i>
+					<div class="aui-grid-label">
+						切换摄像头
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="switchFlash()">
+					<i class="aui-iconfont aui-icon-cart"></i>
+					<div class="aui-grid-label">
+						开关闪光灯
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="filterType('正常')">
+					<i class="aui-iconfont aui-icon-paper"></i>
+					<div class="aui-grid-label">
+						设置滤镜(正常)
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="filterType1()">
+					<i class="aui-iconfont aui-icon-video"></i>
+					<div class="aui-grid-label">
+						设置滤镜(美颜/黑白)
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+	<script type="text/javascript" src="../script/api.js" ></script>
+	<script type="text/javascript">
+		var demo ;
+		function startLive() {
+			demo.startLive(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function stopLive() {
+			demo.stopLive(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function closeLive() {
+			demo.closeLive(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		
+		function startMusic() {
+			demo.startMusic({
+				path:"fs://shangxuege.mp3",
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function stopMusic() {
+			demo.stopMusic(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function switchCamera() {
+			demo.switchCamera(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function switchFlash() {
+			demo.switchFlash(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		//@"正常",@"黑白",@"自然",@"粉嫩",@"怀旧",
+		function filterType(filter) {
+			demo.filterType({
+				filter:filter
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		function filterType1() {
+			var filter = '美颜';
+			if(api.systemType=='ios'){
+				filter = '黑白';
+			}
+			demo.filterType({
+				filter:filter
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('vcloudLive');
+		}
+		var tab = document.querySelectorAll(".aui-tab-item");
+		for (var i in tab) {
+			tab[i].onclick = function(e) {
+				document.querySelector(".aui-tab-item.aui-active").classList.remove("aui-active");
+				e.target.classList.add("aui-active");
+			}
+		}
+	</script>
+</html>

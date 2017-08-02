@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+</head>
+<body>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		api.parseTapmode();
+		
+		//不支持滑动返回
+//		api.setWinAttr({
+//		    slidBackEnabled:false
+//		});
+		//end
+		
+        api.openFrame({
+            name: 'playMainFrm',
+            url: 'playMainFrm.html',
+            bounces: true,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            }
+        });
+        
+        api.addEventListener({
+	        name:'playMainClose'
+        },function(ret,err){
+        	api.closeWin();
+        });
+
+	};
+</script>
+</html>

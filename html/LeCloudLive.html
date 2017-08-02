@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<a class="button" tapmode="active" onclick="createPushUrl()">生成播放地址</a>
+				<a class="button" tapmode="active" onclick="customInitLive()">直播初始化</a>
+				<a class="button" tapmode="active" onclick="customStartPushUrl()">开始移动直播</a>
+				<a class="button" tapmode="active" onclick="getLiveMachines()">云直播机位信息</a>
+				<a class="button" tapmode="active" onclick="customStartCloudLive()">开始云直播</a>
+				<a class="button" tapmode="active" onclick="customPuaselive()">暂停直播</a>
+				<a class="button" tapmode="active" onclick="customStoplive()">停止直播</a>
+				<a class="button" tapmode="active" onclick="setTorchOpenState()">闪光灯</a>
+				<a class="button" tapmode="active" onclick="setFilter()">设置滤镜</a>
+				<a class="button" tapmode="active" onclick="setMute()">静音</a>
+				<a class="button" tapmode="active" onclick="setCamare()">摄像头</a>
+				<a class="button" tapmode="active" onclick="onfullLive()">全屏移动直播</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+		function createPushUrl() {
+			demo.createPushUrl({
+				streamName : 'testpush'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function customInitLive() {
+			var previewWidth = 800;
+			var previewHeight = 600;
+			if(api.systemType=='ios'){
+				previewWidth = 1136;
+				previewHeight = 640;
+			}
+			
+			
+			demo.customInitLive({
+				x : 0,
+				y : 0,
+				h : 250,
+				fixedOn : api.frameName,
+				fixed : true,
+				previewWidth:previewHeight,
+			    previewHeight:previewWidth,
+			    filterName : "浪漫",//v2.0 add zhaofei  美颜 温暖 平静 浪漫 正常
+				isLandscape : false,
+				type : 1 //v2.0 add zhaofei 1:移动直播 2:标准直播
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function customStartPushUrl() {
+			demo.customStartPushUrl({
+				pushUrl : "rtmp://7936.mpush.live.lecloud.com/live/testpush?&tm=20160801130626&sign=5086bc042a26eeffa84ad8de54b6f003"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function getLiveMachines() {
+			demo.getLiveMachines({
+				activityID : "A2017010900000gz"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function customStartCloudLive() {
+			demo.customStartCloudLive({
+				machine : 1
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function customPuaselive() {
+			demo.customPuaselive(function(ret, err) {
+			});
+		}
+
+		function customStoplive() {
+			demo.customStoplive(function(ret, err) {
+			});
+		}
+
+		function setTorchOpenState() {
+			demo.setTorchOpenState(function(ret, err) {
+			});
+		}
+		
+		function setMute() {
+			demo.setMute(function(ret, err) {
+			});
+		}
+
+		function setCamare() {
+			demo.setCamare(function(ret, err) {
+			});
+		}
+		
+		//v2.0 add zhaofei
+		function setFilter(){
+			demo.setFilter({
+				filterName : "平静",//  美颜 温暖 平静 浪漫 正常
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function onfullLive(){
+			api.openWin({
+		        name: 'leLiveMain',
+		        url: './leLiveMain.html'
+	        });
+		}
+
+		function apiready() {
+			demo = api.require('leCloudLive');
+			if(!demo){
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+	</script>
+</html>

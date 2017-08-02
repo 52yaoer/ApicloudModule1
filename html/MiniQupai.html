@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="permissionCheck()">摄像头权限验证</a>
+				<a class="button" tapmode="active" onclick="record()">录制视频</a>
+				<a class="button" tapmode="active" onclick="getCacheSize()">获取缓存大小</a>
+				<a class="button" tapmode="active" onclick="clearCache()">清空缓存</a>
+
+				
+				
+				<a class="button" tapmode="active" onclick="playQuPai()">播放录制结果视频</a>
+				<a class="button" tapmode="active" onclick="clouse()">关闭播放器</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+		var playModule ;
+		function record() {
+			demo.record({
+				minDuration : 2,
+				maxDuration : 40,
+				bitRate : 2000000,
+				videoWidth : 480,
+				videoHeight : 480,
+				isBackCamera : false,
+			}, function(ret, err) {
+				alert("record|" + JSON.stringify(ret) + " " + JSON.stringify(err));
+				if (ret.status) {
+					$api.setStorage('videoPath',ret.data.videoPath);
+                    $api.setStorage('thumbnailPath',ret.data.thumbnailPath);
+				}
+			});
+		}
+
+		function getCacheSize() {
+			demo.getCacheSize(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function clearCache() {
+			demo.clearCache(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function permissionCheck() {
+			demo.permissionCheck();
+		}
+
+//		function playQuPai() {
+//			
+//			api.openWin({
+//				name : 'playQuPai',
+//				url : "openurl.html",
+//				pageParam : {
+//					url : $api.getStorage('videoPath')
+//				}
+//			});
+//		}
+	
+		function playQuPai() {
+			var voidpath = $api.getStorage('videoPath');
+			if(voidpath){
+				playModule.play({
+					pageType:'Frame',
+					rect : {
+						x : 0,
+						y : api.frameHeight - 200,
+						h : 200
+					},
+					fixedOn : api.frameName,
+					fixed : true,
+					title : "test",
+					url : voidpath,
+					defaultBtn : true,
+					enableFull : false
+				}, function(ret, err) {
+					
+				});
+			}
+			
+		}
+		
+		function clouse(){
+			playModule.stop(function(ret, err) {
+				//alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		
+		function apiready() {
+			demo = api.require('miniQuPai');
+			playModule = api.require('playModule');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+	</script>
+</html>

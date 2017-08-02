@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #FF979C9C;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="openLiveUI()">打开直播UI</a>
+				<a class="button" tapmode="active" onclick="addUserInfo()">用户加入</a>
+				<a class="button" tapmode="active" onclick="addUserInfoList()">批量添加用户</a>
+				<a class="button" tapmode="active" onclick="setMemberCounts()">设置观看人数</a>
+				<a class="button" tapmode="active" onclick="isShowGuanZhuBtn()">设置关注按钮</a>
+				<a class="button" tapmode="active" onclick="delUserInfo()">用户退出</a>
+				<a class="button" tapmode="active" onclick="showDanmu()">发送弹幕</a>
+				<a class="button" tapmode="active" onclick="showMessage()">显示消息</a>
+				<a class="button" tapmode="active" onclick="showMessageList()">批量显示消息</a>
+				<a class="button" tapmode="active" onclick="showSystemMessage()">系统消息</a>
+				<a class="button" tapmode="active" onclick="clearMessage()">清空消息列表</a>
+				<a class="button" tapmode="active" onclick="hiddenLiveUI()">隐藏直播UI</a>
+				<a class="button" tapmode="active" onclick="showLiveUI()">显示直播UI</a>
+				<a class="button" tapmode="active" onclick="closeLiveUI()">关闭直播UI</a>
+				<a class="button" tapmode="active" onclick="settingUI()">弹幕和消息显示设置</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var demo = null;
+		apiready = function() {
+			demo = api.require('liveUI');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+		var uid = "";
+		
+		function setMemberCounts(){
+			demo.setMemberCounts({
+				memberCounts : 99999//观看人数
+			}, function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+		
+		function addUserInfoList(){
+			var userList = new Array();
+			for(var i =0;i<5;i++){
+				var data1 = {
+					uid : i,//用户id
+					nickname : "小气鬼"+new Date().getTime(),//用户名称
+					headpic : "widget://image/mac.png",//用户头像
+					starpic : "widget://image/icon_live_toolbar_send_star.png"//等级图标
+				};
+				userList.push(data1);
+			}
+			demo.addUserInfoList({
+				userList : userList
+			}, function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+		
+		
+		
+		function openLiveUI() {
+			var userList = new Array();
+			var msgList = new Array();
+		
+			for(var i =0;i<5;i++){
+				var data1 = {
+					uid : i,//用户id
+					nickname : "小气鬼"+new Date().getTime(),//用户名称
+					headpic : "widget://image/mac.png",//用户头像
+					starpic : "widget://image/icon_live_toolbar_send_star.png"//等级图标
+				};
+				userList.push(data1);
+				
+				var data = {
+					uid : i,//用户id
+					//startlogo : "widget://image/listview_messgae_line_star.png", delete 20170305
+					startnum : 1,
+					nickname : "小气鬼"+new Date().getTime(),
+					nicknameColor : "#BA55D3",
+					message : "🎁🎁🎁 ☕️☕️☕️😝😝  可以试试消息能不能发送emjo标清",
+					messageColor : "#DDA0DD"
+				};
+				
+				msgList.push(data);
+			}
+		
+			var param = {
+				roomName : "映票:9116683", //房间名称
+				uid : 12333, //用户id
+				name : "直播",//用户名称或者直播名称
+				headpic : "widget://image/mac.png", //用户头像或者直播房间头像
+				starpic : "widget://image/icon_live_toolbar_send_star.png",//等级图标
+				isDanmu : true,//是否开启弹幕
+				isImmerse : true,//APP是否开启 沉浸式
+				isShowGuanZhuBtn : true,//是否显示关注按钮
+				memberCounts : 100,//观看人数
+				userList : userList,
+				messageList : msgList,
+				fixedOn : api.frameName,
+				fixed : true
+			};
+			demo.openLiveUI(param, function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+		var temp1 = true;
+		function isShowGuanZhuBtn(){
+			var param = {
+				isShowGuanZhuBtn : temp1,
+			};
+			demo.isShowGuanZhuBtn(param, function(ret, err) {
+				temp1 = !temp1;
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+		function addUserInfo() {
+			var param = {
+				uid : new Date().getTime(),//用户id
+				nickname : "小气鬼"+new Date().getTime(),//用户名称
+				headpic : "widget://image/mac.png",//头像图片
+				starpic : "widget://image/icon_live_toolbar_send_star.png",//等级图片
+				
+				isJoinView : temp,  //是否显示闪亮登场消息框 默认 false 显示｜true 隐藏
+				backgroundPic : "widget://image/listview_messgage_jion_background.png",//闪亮登场的背景图片
+				//startlogo : "widget://image/listview_messgae_line_star.png",//进入等级图片 delete 20170305
+				startnum : 99,//等级
+				//backgroundColor : "#DDA0DD", //等级背景颜色 delete 20170305
+				nicknameColor : "#B03060",//用户名称字体颜色
+				message : "闪亮登场",//消息内容
+				messageColor : "#836FFF"//消息字体颜色
+			};
+			demo.addUserInfo(param, function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+				uid = ret.uid;
+			});
+		}
+
+		function delUserInfo() {
+			var param = {
+				uid : uid,
+				nickname : "小气鬼"+new Date().getTime()  //用户id
+			};
+			var resultCallback = function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			}
+			demo.delUserInfo(param, resultCallback);
+		}
+
+		function showDanmu() {
+			var param = {
+				nickname : "小气鬼",  //用户名称
+				headpic : "widget://image/mac.png", //用户头像
+				starpic : "widget://image/icon_live_toolbar_send_star.png",//等级图片
+				message : "🎁🎁🎁 ☕️☕️☕️😝😝  可以试试消息能不能发送emjo标清" + new Date().getTime()  //弹幕消息内容
+			};
+			demo.showDanmu(param, function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+
+		function showMessage() {
+			var param = {
+				uid : new Date().getTime(),//用户id
+				//startlogo : "widget://image/listview_messgae_line_star.png", //等级图片 delete 20170305
+				startnum : 1,  //等级
+				//backgroundColor : "#DDA0DD", //等级背景颜色 delete 20170305
+				nickname : "小气鬼"+new Date().getTime(),//用户名称
+				nicknameColor : "#BA55D3",//用户名称字体颜色
+				message : "🎁🎁🎁 ☕️☕️☕️😝😝  可以试试消息能不能发送emjo标清",//消息
+				messageColor : "#DDA0DD"//消息字体颜色
+			};
+			demo.showMessage(param, function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+		
+		function showMessageList() {
+			var messageList = new Array();
+			for(var i =0;i<5;i++){
+				var data1 = {
+					uid : new Date().getTime(),//用户id
+					startnum : 1,  //等级
+					nickname : "小气鬼"+new Date().getTime(),//用户名称
+					nicknameColor : "#BA55D3",//用户名称字体颜色
+					message : "🎁🎁🎁 ☕️☕️☕️😝😝  可以试试消息能不能发送emjo标清",//消息
+					messageColor : "#DDA0DD"//消息字体颜色
+				};
+				messageList.push(data1);
+			}
+			demo.showMessageList({
+				messageList : messageList
+			}, function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+		
+		function showSystemMessage() {
+			var param = {
+				title : "直播消息：",//标题
+				titleColor : "#BA55D3",//标题颜色
+				message : "哲宝宝入住贡献榜，空降头等舱",//消息
+				messageColor : "#DDA0DD"//消息字体颜色
+			};
+			demo.showSystemMessage(param, function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+
+		function clearMessage() {
+			demo.clearMessage(function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+
+		function hiddenLiveUI() {
+			demo.hiddenLiveUI(function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+
+		function showLiveUI() {
+			demo.showLiveUI(function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+
+		function closeLiveUI() {
+			demo.closeLiveUI(function(ret, err) {
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+
+		var temp = true;
+		function settingUI() {
+			var param = {
+				isDanmuView : temp, //弹幕显示层是否隐藏 默认 false 显示｜true 隐藏
+				isMessageView : !temp, //消息显示层是否隐藏 默认 false 显示｜true 隐藏
+				isJoinView : temp  //是否显示闪亮登场消息框 默认 false 显示｜true 隐藏
+			};
+			demo.settingUI(param, function(ret, err) {
+				temp = !temp;
+				api.toast({msg : JSON.stringify(ret)+"  "+JSON.stringify(err)});
+			});
+		}
+	</script>
+</html>

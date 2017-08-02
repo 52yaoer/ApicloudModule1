@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	</head>
+	<body></body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var demo;
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('aplayer');
+				
+			demo.play({
+				rect : {
+					x : 0,
+					y : 0,
+					w : api.frameWidth,
+					h : api.frameHeight
+				},
+				fixedOn : api.frameName,
+				fixed : true,
+				title : "test",
+				url : "http://7o50kb.com2.z0.glb.qiniucdn.com/c3.mp4",
+				defaultBtn : false,
+				enableFull : false
+			}, function(ret, err) {
+			});
+			
+			api.openFrame({
+				name : 'APlayer_btn',
+				url : 'APlayer_btn.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : 0,
+					h : api.frameHeight
+				},
+				bgColor : 'rgba(51,51,51,0)'
+			});
+			
+			api.addEventListener({
+	            name:'aplayer_pause'
+            },function(ret,err){
+            	demo.pause(function(ret, err) {
+					alert(JSON.stringify(ret));
+				});
+            });
+            
+            api.addEventListener({
+	            name:'aplayer_start'
+            },function(ret,err){
+            	demo.start(function(ret, err) {
+					alert(JSON.stringify(ret));
+				});
+            });
+            
+            api.addEventListener({
+	            name:'aplayer_stop'
+            },function(ret,err){
+            	demo.start(function(ret, err) {
+					alert(JSON.stringify(ret));
+					
+					api.closeWin();
+				});
+            });
+		};
+	</script>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="isRegister()" >是否注册成功</a>
+				<a class="button" tapmode="active" onclick="onAppStart()" >启动app统计(仅安卓有效)</a>
+				<a class="button" tapmode="active" onclick="addTag()" >添加标签</a>
+				<a class="button" tapmode="active" onclick="removeTag()" >删除标签</a>
+				<a class="button" tapmode="active" onclick="listTags()" >查询标签</a>
+				<a class="button" tapmode="active" onclick="addAlias()" >添加别名</a>
+				<a class="button" tapmode="active" onclick="removeAlias()" >删除别名</a>
+				<a class="button" tapmode="active" onclick="listAliases()" >查询别名</a>
+				<a class="button" tapmode="active" onclick="bindAccount()" >绑定账号</a>
+				<a class="button" tapmode="active" onclick="unbindAccount()" >解除绑定</a>
+				<a class="button" tapmode="active" onclick="setDoNotDisturb1()" >设置免打扰时间段(仅安卓有效)</a>
+				<a class="button" tapmode="active" onclick="setDoNotDisturb2()" >取消免打扰(仅安卓有效)</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var aliPush = null;
+		apiready = function() {
+			aliPush = api.require('aliPush');
+			if(!aliPush){
+				alert("请添加模块后编译");
+				return;
+			}
+			
+			aliPush.addEventListener({
+				name : 'onMessage'
+			}, function(ret, err) {
+				alert("onMessage>>>addEventListener>>>>" + JSON.stringify(ret));
+			});
+			aliPush.addEventListener({
+				name : 'onNotification'
+			}, function(ret, err) {
+				alert("onNotification>>>addEventListener>>>>" + JSON.stringify(ret));
+			});
+			aliPush.addEventListener({
+				name : 'onNotificationOpened'
+			}, function(ret, err) {
+				alert("onNotificationOpened>>>addEventListener>>>>" + JSON.stringify(ret));
+			});
+			aliPush.addEventListener({
+				name : 'onNotificationRemoved'
+			}, function(ret, err) {
+				alert("onNotificationRemoved>>>addEventListener>>>>" + JSON.stringify(ret));
+			});
+			
+			api.addEventListener({
+			    name:'noticeclicked'
+			},function(ret,err){
+			    alert("noticeclicked>>>"+JSON.stringify(ret.value));
+			});
+		}
+		
+		
+		function isRegister() {
+			aliPush.isRegister(function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+		
+		function onAppStart() {
+			aliPush.onAppStart(function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function addTag() {
+			aliPush.addTag({
+				target : 1,
+				tag : "apicloud1 apicloud2",
+				alias : ''
+			}, function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function removeTag() {
+			aliPush.removeTag({
+				target : 1,
+				tag : "apicloud1 apicloud2",
+				alias : ''
+			}, function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function listTags() {
+			aliPush.listTags(function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+
+		function addAlias() {
+			aliPush.addAlias({
+				alias : 'test01'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function removeAlias() {
+			aliPush.removeAlias({
+				alias : 'test01'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function listAliases() {
+			aliPush.listAliases(function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function bindAccount() {
+			aliPush.bindAccount({
+				account : "apicloudaccount"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function unbindAccount() {
+			aliPush.unbindAccount(function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function setDoNotDisturb1() {
+			aliPush.setDoNotDisturb({
+				startHour : 23,
+				startMinute : 0,
+				endHour : 8,
+				endMinute : 0
+			}, function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+
+		function setDoNotDisturb2() {
+			aliPush.setDoNotDisturb({
+				startHour : 0,
+				startMinute : 0,
+				endHour : 0,
+				endMinute : 0
+			}, function(ret, err) {
+				alert(JSON.stringify(ret)+"  "+JSON.stringify(err));
+			});
+		}
+	</script>
+</html>

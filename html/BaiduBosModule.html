@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="uploadPart()" >上传分块</a>
+				<a class="button" tapmode="active" onclick="listParts()" >获取所有已上传的分块信息</a>
+				<a class="button" tapmode="active" onclick="abortMultipartUpload()" >取消分块上传</a>
+				<a class="button" tapmode="active" onclick="deleteObject()" >删除文件</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var demo = null;
+		var uploadId;
+		var urlpath ;
+		apiready = function() {
+			demo = api.require('baiduBos');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+			if(api.systemType=='ios'){
+//				urlpath = 'widget://res/test2.flv';
+				api.getPicture({
+				    sourceType: 'camera',
+				    encodingType: 'jpg',
+				    mediaValue: 'pic',
+				    destinationType: 'url',
+				    allowEdit: true,
+				    quality: 50,
+				    targetWidth: 100,
+				    targetHeight: 100,
+				    saveToPhotoAlbum: false
+				}, function(ret, err) {
+				    if (ret) {
+				        alert(JSON.stringify(ret));
+				        urlpath = ret.data;
+				    } else {
+				        alert(JSON.stringify(err));
+				    }
+				});
+			}else{
+				var fs = api.require('fs');
+				fs.copyTo({
+					oldPath : 'widget://res/test2.flv',
+					newPath : 'fs://'
+				}, function(ret, err) {
+					urlpath = 'fs://test2.flv';
+				});
+			}
+		}
+		
+		function uploadPart(){
+			var param = {
+				accessKey : '1195e936172b4376a41877a2d5cbaee3',
+				secretAccessKey : '893eedda2d7a422cbce9acb8fe360de6',
+				
+				url : urlpath,//ios支持widget:// fs:// 安卓支持 fs://
+				
+				bucketName : 'shudongyun',
+				objectKey : 'test/project/1/43/'+new Date().getTime()+".jpg",
+				
+				//accessKey : '227f3b5959444aa4b0f6e9fd063bb16a',
+				//secretAccessKey : '1d8be6ee14f9466397fd37f7fe100293',
+				//token : 'MjUzZjQzNTY4OTE0NDRkNjg3N2E4YzJhZTc4YmU5ZDh8AAAAADgBAAAApcduBmNOW9TwCoBhdb7IML3yd97xkDZxOEazxErhpVal/gM77uP3S+FL60bbln1UPLFlCZvNROYz5Q1LftTEfS0ePVEBsRcBz1CD7UPlhWVba3CDlNymKyBXecO149fOVVW4WjXtT/2G8WaDn7Xdg3/MZf1T44RSREorjlhWDNIyMqb1HuLuSqJnhONwyLmJiHj04pYk879CAILJRJ9Qs89fVyoza2mm284CYzhQN0oTvj0SoYQ+1byBwI19bYs=',
+				endpointBos : 'https://bj.bcebos.com',//安卓有效
+				
+				maxConnections : 10,
+				connectionTimeoutInMillis : 5000,
+				socketTimeoutInMillis : 2000,//安卓有效
+				
+//				uploadId : "" //上一次上传的id，用于断点续传使用
+			};
+			
+	        demo.uploadPart(param, function(ret, err){
+	        	alert("uploadPart>>"+JSON.stringify(ret)+"  "+JSON.stringify(err));
+	        	if(ret.status){
+	        		if(ret.eventType=='Start'){
+	        			//准备开始上传，获取上传id，如果需要进行断点续传请本地保存
+	        			uploadId = ret.UploadId;
+	        		}else if(ret.eventType=='Process'){
+	        			//上传进度，每一个块上传完成后进行回调
+	        		}else if(ret.eventType=='Success'){
+	        			//完成分块上传回调
+	        		}
+	        	}else{
+	        		//error
+	        	}
+	        });
+		}
+		
+		function listParts(){
+			var param = {
+				accessKey : '1195e936172b4376a41877a2d5cbaee3',
+				secretAccessKey : '893eedda2d7a422cbce9acb8fe360de6',
+				
+				objectKey : 'test/project/1/43/test2.flv',
+				bucketName : 'shudongyun',
+				uploadId : uploadId,
+				
+				maxParts : 100, //查询最大列表数
+				partNumberMarker : 0 //查询块的开始数,当前数不会被查询到
+			};
+	        demo.listParts(param, function(ret, err){
+	        	alert("listParts>>"+uploadId+" "+JSON.stringify(ret)+"  "+JSON.stringify(err));
+	        });
+		}
+		
+		function abortMultipartUpload(){
+			var param = {
+				accessKey : '1195e936172b4376a41877a2d5cbaee3',
+				secretAccessKey : '893eedda2d7a422cbce9acb8fe360de6',
+				
+				objectKey : 'test/project/1/43/test2.flv',
+				bucketName : 'shudongyun',
+				uploadId : uploadId
+			};
+	        demo.abortMultipartUpload(param, function(ret, err){
+	        	alert("abortMultipartUpload>>"+uploadId+" "+JSON.stringify(ret)+"  "+JSON.stringify(err));
+	        });
+		}
+		
+		function deleteObject(){
+	    	var param = {
+				accessKey : '1195e936172b4376a41877a2d5cbaee3',
+				secretAccessKey : '893eedda2d7a422cbce9acb8fe360de6',
+				
+				objectKey : 'test/project/1/43/test2.flv',
+				bucketName : 'shudongyun'
+			};
+	        demo.deleteObject(param, function(ret, err){
+	        	alert("deleteObject>>"+JSON.stringify(ret)+"  "+JSON.stringify(err));
+	        });
+	    }
+	</script>
+</html>

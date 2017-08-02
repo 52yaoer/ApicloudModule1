@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>AUI快速完成布局</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui.2.0.css" />
+		<style>
+			body,section {
+				background-color: transparent !important;
+				padding: 0;
+				margin: 0;
+			}
+			
+			.redtext{
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<section class="aui-grid">
+			<div class="aui-row redtext">
+				<div class="aui-col-xs-3" onclick="pause()">
+					<i class="aui-iconfont aui-icon-home"></i>
+					<div class="aui-grid-label">
+						暂停
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="start()">
+					<i class="aui-iconfont aui-icon-date"></i>
+					<div class="aui-grid-label">
+						开始
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="stop()">
+					<i class="aui-iconfont aui-icon-cart"></i>
+					<div class="aui-grid-label">
+						停止
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+	<script type="text/javascript" src="../script/api.js" ></script>
+	<script type="text/javascript">
+		var demo ;
+		
+		function pause() {
+			api.sendEvent({
+	            name:'aplayer_pause'
+            });
+		}
+
+		function start() {
+			api.sendEvent({
+	            name:'aplayer_start'
+            });
+		}
+
+		function stop() {
+			api.sendEvent({
+	            name:'aplayer_stop'
+            });
+		}
+
+		
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('aplayer');
+		}
+		var tab = document.querySelectorAll(".aui-tab-item");
+		for (var i in tab) {
+			tab[i].onclick = function(e) {
+				document.querySelector(".aui-tab-item.aui-active").classList.remove("aui-active");
+				e.target.classList.add("aui-active");
+			}
+		}
+	</script>
+</html>

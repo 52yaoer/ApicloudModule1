@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				
+				<input type="text" class="input1" name="sFrom" id="sFrom" size="40" value="1231333"/>
+				<input type="text" class="input1" name="sTo" id="sTo" size="40" value="8618537118622"/>
+				<input type="text" class="input1" name="sPhotoUrl" id="sPhotoUrl" size="40" value="http://community.apicloud.com/bbs/template/hl_iuni/images/baiwan.jpg"/>
+				<input type="text" class="input1" name="sName" id="sName" size="40" value="徐淼"/>
+				<input type="text" class="input1" name="sCountry" id="sCountry" size="40" value="美国 拉斯维加斯"/>
+				<input type="text" class="input1" name="sJson" id="sJson" size="40" value=""/>
+				<a class="button" tapmode="active" onclick="callphone()">拨打电话</a>
+				
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		
+		function callphone(){
+			var sFrom1 = document.getElementById("sFrom").value;
+			var sTo1 = document.getElementById("sTo").value;
+			var sPhotoUrl1 = document.getElementById("sPhotoUrl").value;
+			var sName1 = document.getElementById("sName").value;
+			var sCountry1 = document.getElementById("sCountry").value;
+			var sJson1 = document.getElementById("sJson").value;
+
+			api.openFrame({
+	            name: 'TwilioModulePhone',
+	            url: 'TwilioModulePhone.html',
+	            bounces: true,
+	            rect: {
+	                x: 0,
+	                y: 0,
+	                w: 'auto',
+	                h: 'auto'
+	            },
+	            bgColor : 'rgba(51,51,51,0)',
+	            pageParam : {
+					sFrom : sFrom1,
+			        sTo : sTo1,
+			        sPhotoUrl : sPhotoUrl1,
+			        sName : sName1,
+			        sCountry : sCountry1,
+			        sJson : sJson1
+				}
+	        });
+		}
+
+		function apiready() {
+			//不支持滑动返回
+			api.setWinAttr({
+			    slidBackEnabled:false
+			});
+			//end
+			demo.addEventListener({
+				name : "backBtn"
+			}, function(ret, err) {
+				//
+			});
+		}
+	</script>
+</html>

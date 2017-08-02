@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	</head>
+	<body></body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var demo;
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('alivcLive');
+				
+			demo.initLiveView({
+				rect : {
+					x : 0,
+					y : 0,
+					w : api.frameWidth,
+					h : api.frameHeight
+				},
+				pushUrl : "rtmp://video-center.alivecdn.com/AppName/StreamName?vhost=zhibo.kuaifankeji.com",
+//				pushUrl : "rtmp://video-center.alivecdn.com/AppName/StreamName?vhost=www.cdwxpt.com",
+				videoResolution : 360,//安卓直播分辨率240 360 480 540 720
+				frontCameraMirror : false,//true 前置 / false 后置
+				exposureCompensation : 20,//曝光度(android)
+				
+				videoWidth : 360,//(ios)设置直播分辨率
+				videoHeight : 640,//(ios)设置直播分辨率
+				maxBitRate : 1500 * 1000,//(ios)设置最大码率
+				bitRate : 600 *1000,//(ios)设置当前视频码率
+				minBitRate : 400 * 1000,//(ios)设置最小码率
+				audioBitRate : 64 * 1000,//(ios)设置音频码率
+				fps : 20,//(ios)设置帧数
+				
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+			});
+			
+			api.openFrame({
+				name : 'AliLive_btn',
+				url : 'AliLive_btn.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : 0,
+					h : api.frameHeight
+				},
+				bgColor : 'rgba(51,51,51,0)'
+			})
+		};
+	</script>
+</html>

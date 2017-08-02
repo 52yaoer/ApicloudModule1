@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	</head>
+	<body></body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var demo;
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('vcloudPlay');
+			demo.addEventListener({
+				name:"playErrorListener"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+			
+			demo.playLive({
+				x : 0,
+				y : 0,
+				w : api.frameWidth,
+				h : api.frameHeight,
+				fixedOn : api.frameName,
+				fixed : true,
+//				playUrl:"rtmp://live.hkstv.hk.lxdns.com/live/hks",
+				playUrl:"http://v56d785b4.live.126.net/live/05965c485ca640f693861f87ca71d68a.flv",
+				mediaType : "livestream",
+				decodeType : "hardware"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+			
+			
+			api.openFrame({
+				name : 'play_btn',
+				url : 'play_btn.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : 0,
+					h : api.frameHeight
+				},
+				bgColor : 'rgba(51,51,51,0)'
+			})
+		};
+	</script>
+</html>

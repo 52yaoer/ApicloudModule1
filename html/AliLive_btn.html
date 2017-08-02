@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>AUI快速完成布局</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui.2.0.css" />
+		<style>
+			body,section {
+				background-color: transparent !important;
+				padding: 0;
+				margin: 0;
+			}
+			
+			.redtext{
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<section class="aui-grid">
+			<div class="aui-row redtext">
+				<div class="aui-col-xs-3" onclick="recording()">
+					<i class="aui-iconfont aui-icon-home"></i>
+					<div class="aui-grid-label">
+						开始直播
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="switchCamera()">
+					<i class="aui-iconfont aui-icon-date"></i>
+					<div class="aui-grid-label">
+						切换摄像头
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="switchFlashLight()">
+					<i class="aui-iconfont aui-icon-cart"></i>
+					<div class="aui-grid-label">
+						开关闪光灯
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+	<script type="text/javascript" src="../script/api.js" ></script>
+	<script type="text/javascript">
+		var demo ;
+		function recording() {
+			demo.recording(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function switchCamera() {
+			demo.switchCamera(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function switchFlashLight() {
+			demo.switchFlashLight(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		
+		var demo1;
+		function clickAppLause(){
+            demo1.clickAppLause(function(ret,err){
+                api.toast({
+                        msg : JSON.stringify(ret)
+                });            
+            });
+        }
+
+
+		function showAppLause() {
+			demo1.showAppLause({
+				rect : {
+					x : 100,
+					y : api.frameHeight - 180,
+					w : 60,
+					h : 60
+				},
+				placeholderImg : "widget://res/image/applause.png",
+//				iamges : ["widget://res/heartpic/heart0.png", 
+//					"widget://res/heartpic/heart1.png", 
+//					"widget://res/heartpic/heart2.png", 
+//					"widget://res/heartpic/heart3.png", 
+//					"widget://res/heartpic/heart4.png", 
+//					"widget://res/heartpic/heart5.png", 
+//					"widget://res/heartpic/heart6.png", 
+//					"widget://res/heartpic/heart7.png", 
+//					"widget://res/heartpic/heart8.png", 
+//					"widget://res/heartpic/heart9.png", 
+//					"widget://res/heartpic/heart10.png", 
+//					"widget://res/heartpic/heart11.png"
+//				],
+				
+				iamges : ["widget://res/image/applause_1.png",
+					"widget://res/image/applause_2.png",
+					"widget://res/image/applause_3.png",
+					"widget://res/image/applause_4.png",
+					"widget://res/image/applause_5.png",
+					"widget://res/image/applause_6.png",
+					"widget://res/image/applause_7.png"
+				],
+				isShowNum : false,
+				applauseNum : 0,
+				fixedOn : api.frameName,
+                fixed : false
+			}, function(ret, err) {
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+			});
+		}
+		
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('alivcLive');
+			
+			demo1 = api.require('applause');
+			showAppLause();
+		}
+		var tab = document.querySelectorAll(".aui-tab-item");
+		for (var i in tab) {
+			tab[i].onclick = function(e) {
+				document.querySelector(".aui-tab-item.aui-active").classList.remove("aui-active");
+				e.target.classList.add("aui-active");
+			}
+		}
+	</script>
+</html>

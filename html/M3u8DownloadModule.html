@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="start1('http://pl-ali.youku.com/playlist/m3u8?vid=409573614&type=hd2&ts=1494579390&keyframe=0&sid=049457938973221cf48f3&token=9114&oip=3072350414&ctype=21&ev=1&did=701d3223dbe913e5adcb637fbfe6ce01&ep=UWbFtM%2Bt%2Bvw%2Fgi%2FNgw9jVsIMPxZ6eCGQ4lhFac7nr%2FJk5DesKLGaYKQZP9xRCMHx')">M3U8视频下载1</a>
+				<a class="button" tapmode="active" onclick="isDownloadFinish('http://pl-ali.youku.com/playlist/m3u8?vid=409573614&type=hd2&ts=1494579390&keyframe=0&sid=049457938973221cf48f3&token=9114&oip=3072350414&ctype=21&ev=1&did=701d3223dbe913e5adcb637fbfe6ce01&ep=UWbFtM%2Bt%2Bvw%2Fgi%2FNgw9jVsIMPxZ6eCGQ4lhFac7nr%2FJk5DesKLGaYKQZP9xRCMHx')">检测是否下载完成1</a>
+				<a class="button" tapmode="active" onclick="pause1('http://pl-ali.youku.com/playlist/m3u8?vid=409573614&type=hd2&ts=1494579390&keyframe=0&sid=049457938973221cf48f3&token=9114&oip=3072350414&ctype=21&ev=1&did=701d3223dbe913e5adcb637fbfe6ce01&ep=UWbFtM%2Bt%2Bvw%2Fgi%2FNgw9jVsIMPxZ6eCGQ4lhFac7nr%2FJk5DesKLGaYKQZP9xRCMHx')">暂停下载1</a>
+				<a class="button" tapmode="active" onclick="resume1('http://pl-ali.youku.com/playlist/m3u8?vid=409573614&type=hd2&ts=1494579390&keyframe=0&sid=049457938973221cf48f3&token=9114&oip=3072350414&ctype=21&ev=1&did=701d3223dbe913e5adcb637fbfe6ce01&ep=UWbFtM%2Bt%2Bvw%2Fgi%2FNgw9jVsIMPxZ6eCGQ4lhFac7nr%2FJk5DesKLGaYKQZP9xRCMHx')">恢复下载1</a>
+				<a class="button" tapmode="active" onclick="start1('http://7o50kb.com2.z0.glb.qiniucdn.com/c6.mp4')">Mp4视频下载2</a>
+				<a class="button" tapmode="active" onclick="isDownloadFinish('http://7o50kb.com2.z0.glb.qiniucdn.com/c6.mp4')">检测是否下载完成2</a>
+				<a class="button" tapmode="active" onclick="pause1('http://7o50kb.com2.z0.glb.qiniucdn.com/c6.mp4')">暂停下载2</a>
+				<a class="button" tapmode="active" onclick="resume1('http://7o50kb.com2.z0.glb.qiniucdn.com/c6.mp4')">恢复下载2</a>
+				<a class="button" tapmode="active" onclick="start1('http://disp.titan.mgtv.com/vod.do?fmt=4&pno=1031&fid=FD84F029E35E7F124483EFDC79AFBBA3&file=/mp4/2015/dianying/hyzxmb_26589/8C5080CF802D7D03D9EB055F76AB511F_20150408_1_1_1096_mp4/E1AF0DA31C4D1C21105305C573BD3B5E.m3u8')">M3U8视频下载3</a>
+				<a class="button" tapmode="active" onclick="isDownloadFinish('http://disp.titan.mgtv.com/vod.do?fmt=4&pno=1031&fid=FD84F029E35E7F124483EFDC79AFBBA3&file=/mp4/2015/dianying/hyzxmb_26589/8C5080CF802D7D03D9EB055F76AB511F_20150408_1_1_1096_mp4/E1AF0DA31C4D1C21105305C573BD3B5E.m3u8')">检测是否下载完成3</a>
+				<a class="button" tapmode="active" onclick="pause1('http://disp.titan.mgtv.com/vod.do?fmt=4&pno=1031&fid=FD84F029E35E7F124483EFDC79AFBBA3&file=/mp4/2015/dianying/hyzxmb_26589/8C5080CF802D7D03D9EB055F76AB511F_20150408_1_1_1096_mp4/E1AF0DA31C4D1C21105305C573BD3B5E.m3u8')">暂停下载3</a>
+				<a class="button" tapmode="active" onclick="resume1('http://disp.titan.mgtv.com/vod.do?fmt=4&pno=1031&fid=FD84F029E35E7F124483EFDC79AFBBA3&file=/mp4/2015/dianying/hyzxmb_26589/8C5080CF802D7D03D9EB055F76AB511F_20150408_1_1_1096_mp4/E1AF0DA31C4D1C21105305C573BD3B5E.m3u8')">恢复下载3</a>
+				<a class="button" tapmode="active" onclick="getCacheSize()">获取缓存大小</a>
+				<a class="button" tapmode="active" onclick="clearCache()">清空缓存</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+		function start1(url) {
+			demo.start({
+				url : url
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret) + "   " + JSON.stringify(err));
+				api.toast({
+					msg : JSON.stringify(ret) + "   " + JSON.stringify(err)
+				});
+			});
+		}
+
+		function pause1(url) {
+			demo.pause({
+				url : url
+			}, function(ret, err) {
+				api.toast({
+				    msg:JSON.stringify(ret) + "   " + JSON.stringify(err)
+				});
+			});
+		}
+
+		function resume1(url) {
+			demo.resume({
+				url : url
+			}, function(ret, err) {
+				api.toast({
+				    msg:JSON.stringify(ret) + "   " + JSON.stringify(err)
+				});
+			});
+		}
+
+		function isDownloadFinish(url) {
+			demo.isDownloadFinish({
+				url : url
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+				if (ret.status) {
+					console.log(ret.videoUrl);
+					$api.setStorage('videoPath', ret.videoUrl);
+					playQuPai();
+				}
+			});
+		}
+
+		function getCacheSize() {
+			demo.getCacheSize(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function clearCache() {
+			demo.clearCache(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function playQuPai() {
+			var demo1 = api.require('baiduPlayer');
+			demo1.play({
+				rect : {
+					x : 0,
+					y : 0,
+					w : api.frameWidth,
+					h : 200
+				},
+				fixedOn : api.frameName,
+				fixed : true,
+				title : "test",
+				url : $api.getStorage('videoPath'),
+                defaultBtn : true,
+                enableFull : true,
+			}, function(ret, err) {
+				
+			});
+//			alert($api.getStorage('videoPath'));
+//			api.openWin({
+//				name : 'playQuPai',
+//				url : "openurl.html",
+//				pageParam : {
+//					url : $api.getStorage('videoPath')
+//				}
+//			});
+		}
+
+		function apiready() {
+			demo = api.require('m3u8Download');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+			demo.addEventListener(function(ret, err) {
+				console.log(JSON.stringify(ret) + "   " + JSON.stringify(err));
+				api.toast({
+					msg : JSON.stringify(ret) + "   " + JSON.stringify(err)
+				});
+			});
+		}
+	</script>
+</html>

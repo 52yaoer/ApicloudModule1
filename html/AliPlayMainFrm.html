@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	</head>
+	<body></body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var demo;
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('alivcPlay');
+				
+			demo.playUrl({
+				x : 0,
+				y : 0,
+				h : api.frameHeight,
+				playUrl : 'rtmp://zhibolive.njxdkj.cn/njxdtv/StreamName',
+//				playUrl : 'http://www.cdwxpt.com/AppName/StreamName.flv',
+//				playUrl : "http://7o50kb.com2.z0.glb.qiniucdn.com/c6.mp4",
+				timeout : 25000,
+				bufferDuration : 8000,
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+				//alert("playUrl>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+			
+			api.openFrame({
+				name : 'AliPlay_btn',
+				url : 'AliPlay_btn.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : 0,
+					h : api.frameHeight
+				},
+				bgColor : 'rgba(51,51,51,0)'
+			})
+		};
+	</script>
+</html>

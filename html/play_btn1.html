@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>AUI快速完成布局</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui.2.0.css" />
+		<style>
+			body,section {
+				background-color: transparent !important;
+				padding: 0;
+				margin: 0;
+			}
+			.redtext{
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<section class="aui-grid">
+			<div class="aui-row redtext">
+				<div class="aui-col-xs-3" onclick="pause()">
+					<i class="aui-iconfont aui-icon-home"></i>
+					<div class="aui-grid-label">
+						暂停播放
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="start()">
+					<i class="aui-iconfont aui-icon-gear"></i>
+					<div class="aui-grid-label">
+						开始播放
+					</div>
+				</div>
+				<div class="aui-col-xs-3" onclick="unfull()">
+					<i class="aui-iconfont aui-icon-gear"></i>
+					<div class="aui-grid-label">
+						最小化
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+	<script type="text/javascript" src="../script/api.js" ></script>
+	<script type="text/javascript">
+		var demo ;
+		
+		function pause() {
+			demo.pause(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function start() {
+			demo.start(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function unfull() {
+			demo.unfull(function(ret, err) {
+				if(ret.status){
+					api.sendEvent({name: 'hiddenPlayBtn'});
+				}
+			});
+		}
+		
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('vcloudPlay');
+		}
+		var tab = document.querySelectorAll(".aui-tab-item");
+		for (var i in tab) {
+			tab[i].onclick = function(e) {
+				document.querySelector(".aui-tab-item.aui-active").classList.remove("aui-active");
+				e.target.classList.add("aui-active");
+			}
+		}
+	</script>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	</head>
+	<body></body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var demo;
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('vrPlayer');
+			api.setKeepScreenOn({
+			    keepOn: true
+			});
+			
+			demo.openVrPlayer({
+				rect : {
+					x : 0,
+					y : 0,
+					w : api.frameWidth,
+					h : api.frameHeight
+				},
+				fixedOn : api.frameName,
+				fixed : true,
+				//url : 'widget://res/skyrim360.mp4',
+				//url:"http://7xue4m.com1.z0.glb.clouddn.com/apicloud/93310f683b752242ee3616bece8f3673.mp4",
+				url : "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+				interactive : 0,
+				display : 0,
+				projection : 0
+			}, function(ret, err) {
+				//alert(JSON.stringify(ret));
+			});
+			
+			
+//			api.openFrame({
+//				name : 'live_btn',
+//				url : 'live_btn.html',
+//				bounces : true,
+//				rect : {
+//					x : 0,
+//					y : 0,
+//					h : api.frameHeight
+//				},
+//				bgColor : 'rgba(51,51,51,0)'
+//			})
+		};
+	</script>
+</html>

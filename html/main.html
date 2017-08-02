@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="openwinmodule('M3u8DownloadModule')">m3u8下载</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('BDPlayModule')">百度云播放器</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('VolumeModule')">媒体音量调节</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('VrPlayerModule')">VR播放器</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('RichTextEditorModule')">富文本编辑框</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('WebSocketModule')">WebSocket模块</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('DaHuaRtspModule')">大华摄像头</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('FfmpegModule')">直播录像模块</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('EasyLinkModule')">庆科配网模块</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('SunmiPrinter')">商米打印模块</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('LiveUIModule')">直播UI效果</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('KeyboardCustomModule')">33位按键键盘</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('TimerModule')" >Timer模块</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('MiniQupaiPlus')" >短视频录制Plus</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('MiniQupai')" >短视频录制</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('MusicRecordModule')" >播放和录音合成模块</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('ScreenRecordModule')" >手机录屏模块</a>
+				<!--<a class="button" tapmode="active" onclick="openwinmodule('CaptureScreenModule')" >手机录屏模块(悬浮窗)</a>-->
+				<a class="button" tapmode="active" onclick="openwinmodule('LinkedMEModule')" >LinkedME模块</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('PhotoDegreeModule')" >图片设置旋转角度</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('BaiduBosModule')" >百度bos上传</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('Easemob')" >环信模块</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('TwilioModule')" >拨打电话</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('KeyboardModule')" >数字键盘</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('IpAddress')" >ip地址</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('BaiduAppx')" >百通广告联盟</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('ExifInterfaceModule')" >JPG图片属性</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('AlivcLive')" >阿里云直播</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('AlivcPlay')" >阿里云播放</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('UIMusic')" >音乐播放器</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('AliPush')" >阿里移动推送</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('PlayModule')" >视频播放</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('APlayer')" >迅雷视频播放</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('LeCloudLive')" >乐视云直播</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('LeCloudPlay')" >乐视云播放</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('VCloudLive')" >网易视频云直播</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('VCloudPlay')" >网易视频云播放</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('PlayRtsp')" >PlayRtsp播放</a>
+				<!--<a class="button" tapmode="active" onclick="openwinmodule('PlayAir')" >打飞机</a>-->
+				<!--<a class="button" tapmode="active" onclick="openwinmodule('BaiduBanner')" >百度banner广告</a>-->
+				<a class="button" tapmode="active" onclick="openwinmodule('LeCloudDownload')" >乐视点播下载</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('Admob')" >Admob广告</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('AppLauseModule')" >点赞动画效果</a>
+				<a class="button" tapmode="active" onclick="openwinmodule('SangforVPNModule')" >深信服vpn</a>
+				
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		apiready = function() {
+			var fs = api.require('fs');
+			fs.copyTo({
+				oldPath : 'widget://res/MP3s/shangxuege.mp3',
+				newPath : 'fs://'
+			}, function(ret, err) {
+//				alert("复制音乐文件到fs://>>"+JSON.stringify(ret));
+			});
+			
+			//电视tv方案专用
+			api.requestFocus({
+				name : api.frameName
+			});
+		}
+		function openwinmodule(tab) {
+			api.openWin({
+	            name : 'publicwin',
+	            url : 'publicwin.html',
+	            pageParam : {
+	            	module : tab
+	            }
+            });
+		}
+		
+		
+		function openselfmodule(tab){
+			api.openWin({
+	            name : tab,
+	            url : tab+".html",
+	            pageParam : {
+	            	module : tab
+	            }
+            });
+		}
+
+	</script>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="setGpsAttributes()">设置gps属性</a>
+				<a class="button" tapmode="active" onclick="getPicAttributes()">读取gps属性</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var demo = null;
+		apiready = function() {
+			demo = api.require('photoGPS');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+		function setGpsAttributes() {
+			var fs = api.require('fs');
+			fs.copyTo({
+				oldPath : 'widget://image/123456.jpg',
+				newPath : 'fs://'
+			}, function(ret, err) {
+				var param = {
+					pic : "fs://123456.jpg",
+					lat : 30.67261,
+					lng : 104.0457
+				};
+				demo.setGpsAttributes(param, function(ret, err) {
+					alert(JSON.stringify(ret) + " " + JSON.stringify(err));
+//					if (ret.status) {
+//						api.saveMediaToAlbum({
+//							path : ret.picPath
+//						}, function(ret, err) {
+//							if (ret && ret.status) {
+//								alert('保存成功');
+//							} else {
+//								alert('保存失败');
+//							}
+//						});
+//					}
+				});
+			});
+		}
+
+		function getPicAttributes() {
+			var fs = api.require('fs');
+			fs.copyTo({
+				oldPath : 'widget://image/IMG_1768.JPG',
+				newPath : 'fs://'
+			}, function(ret, err) {
+//				alert(JSON.stringify(ret) + " " + JSON.stringify(err));
+				var param = {
+					pic : "fs://IMG_1768.JPG"
+				};
+				demo.getPicAttributes(param, function(ret, err) {
+					alert(JSON.stringify(ret) + " " + JSON.stringify(err));
+				});
+			});
+		}
+	</script>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<a class="button" tapmode="active" onclick="playLeCloudActivity()">标准直播播放</a>
+				<a class="button" tapmode="active" onclick="playLeCloudVod()">标准点播播放</a>
+				<a class="button" tapmode="active" onclick="playUrl()">移动直播播放</a>
+				<a class="button" tapmode="active" onclick="start()">播放</a>
+				<a class="button" tapmode="active" onclick="pause()">暂停</a>
+				<a class="button" tapmode="active" onclick="stop()">停止</a>
+				<a class="button" tapmode="active" onclick="setSensor()">设置重力感应</a>
+				<a class="button" tapmode="active" onclick="fullScreen()">进入全屏(非模块实现)</a>
+				<a class="button" tapmode="active" onclick="cancelFullScreen()">退出全屏(非模块实现)</a>
+				<a class="button" tapmode="active" onclick="uploader()">上传视频</a>
+				
+				<a class="button" tapmode="active" onclick="onfullLive()">全屏移动直播播放</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+		function playLeCloudActivity() {
+			demo.playLeCloudActivity({
+				pageType : 'Frame',//Window Frame
+				x : 0,
+				y : 0,
+				h : 250,
+				ActivityId : "A2017010900000gz",
+				isSensor : false,// true 开启重力感应 false 关闭重力感应
+				hasSkin : true,//true 有皮肤  false 无皮肤
+                hasTopView:true,//true 显示顶部菜单  false  隐藏顶部菜单
+				hasBackBtn:true,//true 显示全屏下的返回按钮 false 隐藏全屏下的返回按钮
+				hasStartBtn : true,// true 显示开始播放按钮 false 隐藏开始播放按钮
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+				//alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function playLeCloudVod() {
+			demo.playLeCloudVod({
+				pageType : 'Window',//Window Frame
+				x : 0,
+				y : 0,
+				h : 250,
+				uuid : "8sowghkzbp",
+				vuid : "6901d5904b",
+				puid : "5c6dbe97c9",
+				isSensor : false,// true 开启重力感应 false 关闭重力感应
+				hasSkin : true,//true 有皮肤  false 无皮肤
+                hasTopView:false,//true 显示顶部菜单  false  隐藏顶部菜单
+				hasBackBtn:true,//true 显示全屏下的返回按钮 false 隐藏全屏下的返回按钮
+				hasStartBtn : true,// true 显示开始播放按钮 false 隐藏开始播放按钮
+				autoPlay : false,
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+				//alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function playUrl() {
+			demo.playUrl({
+				pageType : 'Frame',
+				x : 0,
+				y : 0,
+				h : 250,
+//				playUrl : "http://7o50kb.com2.z0.glb.qiniucdn.com/kuaisu3.mp4",
+				playUrl : "rtmp://7936.mpull.live.lecloud.com/live/testpush?&tm=20160801130626&sign=5086bc042a26eeffa84ad8de54b6f003",
+//				playUrl :  "rtmp://7459.mpull.live.lecloud.com/live/CZQGU64BEQ",
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+				//alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function setSensor() {
+			demo.setSensor({
+				isSensor : false
+			},function(ret, err) {
+				alert("start>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function start() {
+			demo.start(function(ret, err) {
+				alert("start>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function pause() {
+			demo.pause(function(ret, err) {
+				alert("pause>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function stop() {
+			demo.stop(function(ret, err) {
+				alert("stop>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function uploader() {
+			if (api.systemType == 'ios') {
+				demo.uploader({
+					uuid : "",
+					secretKey : "",
+					uploadFile : "widget://res/test1.mp4"
+				}, function(ret, err) {
+					if (ret.progress) {
+						api.toast({
+							msg : JSON.stringify(ret)
+						});
+					} else {
+						alert("uploader>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+					}
+				});
+			} else {
+				var fs = api.require('fs');
+				fs.copyTo({
+					oldPath : 'widget://res/test1.mp4',
+					newPath : 'fs://floder'
+				}, function(ret, err) {
+					if (ret.status) {
+						alert(JSON.stringify(ret));
+						demo.uploader({
+							uuid : "",
+							secretKey : "",
+							token:"",
+							uploadFile : "fs://floder/test1.mp4"
+						}, function(ret, err) {
+							if(ret.status == 'token'){
+								alert("token>>" + JSON.stringify(ret));
+							}else if(ret.status == 'progress'){
+								api.toast({msg : JSON.stringify(ret)});
+							}else{
+								if(ret.status){
+									alert("uploader>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+								}else{
+									alert("uploader>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+								}
+							}
+						});
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			}
+		}
+
+		function fullScreen() {
+			api.setScreenOrientation({
+				orientation : 'landscape_left'
+			});
+		}
+
+		function cancelFullScreen() {
+			api.setScreenOrientation({
+				orientation : 'portrait_up'
+			});
+		}
+	
+	
+		function onfullLive(){
+			api.openWin({
+		        name: 'lePlayMain',
+		        url: './lePlayMain.html'
+	        });
+		}
+		
+		
+		function apiready() {
+			demo = api.require('leCloudPlay');
+			if(!demo){
+				alert("请添加模块后编译");
+				return;
+			}
+//			demo.addEventListener({
+//				name : "fullChange"
+//			}, function(ret, err) {
+//				alert("fullChange>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+//			});
+			demo.addEventListener({
+				name : "backBtn"
+			}, function(ret, err) {
+				alert("backBtn>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+				if(ret.fullScreen){
+					cancelFullScreen();
+				}else{
+					alert("请执行关闭页面方法");
+				}
+			});
+			demo.addEventListener({
+				name : "play"
+			}, function(ret, err) {
+				alert("play>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+			demo.addEventListener({
+				name : "playEnd"
+			}, function(ret, err) {
+				alert("playEnd>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+	</script>
+</html>

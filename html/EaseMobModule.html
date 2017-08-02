@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="loginAccount()">用户登陆</a>
+				<a class="button" tapmode="active" onclick="logoutAccount()">用户退出</a>
+				<a class="button" tapmode="active" onclick="initWeiChat()">初始化客服连接</a>
+				<a class="button" tapmode="active" onclick="receiveMessage()">消息接收监听</a>
+				<a class="button" tapmode="active" onclick="sendTextMessage()">单文本消息</a>
+				<a class="button" tapmode="active" onclick="sendImageMessage()">单图片消息</a>
+				<a class="button" tapmode="active" onclick="sendShopTrackMessage()">发送轨迹消息</a>
+				<a class="button" tapmode="active" onclick="sendShopOrderMessage()">发送订单消息</a>
+				<a class="button" tapmode="active" onclick="loadNumbersOfMessages()">根据消息id加载它之前的指定条数消息</a>
+				<a class="button" tapmode="active" onclick="loadAllMessages()">获取全部消息记录</a>
+				<a class="button" tapmode="active" onclick="removeAllMessages()">清空全部消息记录</a>
+				<a class="button" tapmode="active" onclick="latestMessage()">获取最新一条消息记录</a>
+				<a class="button" tapmode="active" onclick="getUnreadMsgCount()">获取未读区消息数</a>
+				<a class="button" tapmode="active" onclick="markMessageAsRead()">标记某消息id为已读</a>
+				<a class="button" tapmode="active" onclick="markAllMessagesAsRead()">标记所有消息为已读</a>
+				<a class="button" tapmode="active" onclick="receiveHasReadResponse()">已读消息监听</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+
+		function loginAccount() {
+			demo.loginAccount({
+				username : 'helloapp',
+				password : '123456'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function logoutAccount() {
+			demo.logoutAccount(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function initWeiChat() {
+			demo.initWeiChat({
+				imUserServer : 'admin',
+				visitor : {
+					trueName : 'zhangsan',
+					qq : '12345678',
+					phone : '1300000000',
+					companyName : 'soft',
+					userNickname : 'test',
+					email : '130000@qq.com'
+				}
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function sendTextMessage() {
+			demo.sendTextMessage({
+				content : '我是文本！'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		//http://static1.tuicool.com/images/ad/jiankongbao120.jpg
+		function sendImageMessage() {
+			demo.sendImageMessage({
+				name : "1.jpg",
+				url : 'widget://res/Images/1.jpg'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function sendShopTrackMessage() {
+			demo.sendShopTrackMessage({
+				title : '测试track',
+				desc : '2015早春新款高腰复古牛仔裤',
+				price : '￥128',
+				img_url : 'http://www.lagou.com/upload/indexPromotionImage/ff8080814cffb587014d09b2d7810206.png',
+				item_url : 'http://www.easemob.com'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function sendShopOrderMessage() {
+			demo.sendShopOrderMessage({
+				title : '测试order',
+				desc : '2015早春新款高腰复古牛仔裤',
+				price : '￥128',
+				img_url : 'http://www.lagou.com/upload/indexPromotionImage/ff8080814cffb587014d09b2d7810206.png',
+				item_url : 'http://www.easemob.com',
+				order_title : '订单号：7890'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function receiveMessage() {
+			demo.receiveMessage(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function loadNumbersOfMessages() {
+			demo.loadNumbersOfMessages({
+				count : 10
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function loadAllMessages() {
+			demo.loadAllMessages(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function removeAllMessages() {
+			demo.removeAllMessages(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function latestMessage() {
+			demo.latestMessage(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+				
+				
+			});
+		}
+		
+		function getUnreadMsgCount() {
+			demo.getUnreadMsgCount(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function markMessageAsRead() {
+			demo.markMessageAsRead({messageid:"ret.result.messageId"},function(ret, err) {
+				alert("markMessageAsRead:"+JSON.stringify(ret));
+			});
+		}
+		
+		function markAllMessagesAsRead() {
+			demo.markAllMessagesAsRead(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function receiveHasReadResponse() {
+			demo.receiveHasReadResponse(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function apiready() {
+			demo = api.require('easeMobModule');
+			if(!demo){
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+	</script>
+</html>

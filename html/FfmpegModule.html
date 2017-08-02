@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<a class="button" tapmode="active" onclick="addEventListener1()">监听录制结果</a>
+				<a class="button" tapmode="active" onclick="runRecord()">开始录制</a>
+				<a class="button" tapmode="active" onclick="isRunning()">获取录制状态</a>
+				<a class="button" tapmode="active" onclick="killRecord()">结束录制</a>
+				<a class="button" tapmode="active" onclick="getCacheSize()">获取缓存大小</a>
+				<a class="button" tapmode="active" onclick="clearCache()">清空缓存</a>
+				<a class="button" tapmode="active" onclick="playLoacalModule1()">在线观看</a>
+				<a class="button" tapmode="active" onclick="playLoacalModule2()">播放录制视频</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo = null;
+		var play = null;
+		apiready = function() {
+			demo = api.require('ffmpegRecording');
+			play = api.require('playModule');
+			play.addEventListener({
+				name : 'playEnd'
+			}, function(ret, err) {
+				play.stop(function(ret, err) {
+					//alert(JSON.stringify(ret));
+				});
+			});
+		}
+		
+		function addEventListener1() {
+			demo.addEventListener(function(ret,err){
+				alert(JSON.stringify(ret) + "  " + JSON.stringify(err));
+				$api.setStorage('outputPath', ret.outputPath);
+			});
+		}
+		
+		function runRecord() {
+			demo.runRecord({
+				inputUrl : "http://zv.3gv.ifeng.com/live/zhongwen800k.m3u8"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+
+		function isRunning() {
+			demo.isRunning(function(ret, err) {
+				alert(JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+
+		function killRecord() {
+			demo.killRecord(function(ret, err) {
+				alert(JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+
+		function getCacheSize() {
+			demo.getCacheSize(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function clearCache() {
+			demo.clearCache(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function playLoacalModule1() {
+			play.play({
+				rect : {
+					x : 0,
+					y : 0,
+					w : api.frameWidth,
+					h : 250
+				},
+				fixedOn : api.frameName,
+				fixed : false,
+				url : "http://zv.3gv.ifeng.com/live/zhongwen800k.m3u8"
+			}, function(ret, err) {
+			});
+		}
+
+		function playLoacalModule2() {
+			var videoPath = $api.getStorage('outputPath');
+			api.alert({
+				title : "播放地址",
+				msg : videoPath
+			}, function(ret, err) {
+				play.play({
+					rect : {
+						x : 0,
+						y : 0,
+						w : api.frameWidth,
+						h : 250
+					},
+					fixedOn : api.frameName,
+					fixed : false,
+					url : videoPath
+				}, function(ret, err) {
+				});
+			});
+		}
+	</script>
+</html>

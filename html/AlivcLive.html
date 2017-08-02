@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<input type="text" class="input1" name="deviceid" id="deviceid" size="40" value=""/>
+				<a class="button" tapmode="active" onclick="permissionCheck()">权限检测</a>
+				<a class="button" tapmode="active" onclick="initLiveView()">直播预览</a>
+				<a class="button" tapmode="active" onclick="recording()">开始/停止直播</a>
+				<a class="button" tapmode="active" onclick="switchCamera()">摄像头切换</a>
+				<a class="button" tapmode="active" onclick="switchFlashLight()">闪光灯切换</a>
+				<a class="button" tapmode="active" onclick="switchBeauty()">美颜开关</a>
+				<a class="button" tapmode="active" onclick="stopLive()">停止直播</a>
+				<!--<a class="button" tapmode="active" onclick="onfullLive()">全屏直播预览</a>-->
+			</div>
+		</div>
+	</body>
+	<script>
+		var demo;
+		function permissionCheck() {
+			demo.permissionCheck(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function initLiveView() {
+			var _deviceid = document.getElementById("deviceid").value;
+			if(_deviceid==""){
+				alert("请输入直播地址:");
+				return;
+			}
+			
+			demo.initLiveView({
+				rect : {
+					x : 0,
+					y : 0,
+					w : api.frameWidth,
+					h : 200
+				},
+				pushUrl : _deviceid,
+				//pushUrl : "rtmp://video-center.alivecdn.com/AppName/StreamName?vhost=zhibo.kuaifankeji.com",
+				//pushUrl : "rtmp://video-center.alivecdn.com/AppName/StreamName?vhost=www.cdwxpt.com",
+				videoResolution : 360,//安卓直播分辨率240 360 480 540 720
+				frontCameraMirror : false,//true 前置 / false 后置
+				exposureCompensation : 20,//曝光度(android)
+				
+				screenOrientation : false, //是否横屏 true 横屏 |false 竖屏
+				
+				videoWidth : 360,//(ios)设置直播分辨率
+				videoHeight : 640,//(ios)设置直播分辨率
+				maxBitRate : 1500 * 1000,//(ios)设置最大码率
+				bitRate : 600 *1000,//(ios)设置当前视频码率
+				minBitRate : 400 * 1000,//(ios)设置最小码率
+				audioBitRate : 64 * 1000,//(ios)设置音频码率
+				fps : 20,//(ios)设置帧数
+				
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+			});
+		}
+
+		function recording() {
+			demo.recording(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function switchCamera() {
+			demo.switchCamera(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function switchFlashLight() {
+			demo.switchFlashLight(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function switchBeauty() {
+			demo.switchBeauty(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function stopLive() {
+			demo.stopLive(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function onfullLive(){
+			api.openWin({
+		        name: 'AliLiveMain',
+		        url: './AliLiveMain.html'
+	        });
+		}
+
+		function apiready() {
+			demo = api.require('alivcLive');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+	</script>
+</html>

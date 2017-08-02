@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<input type="text" class="input1" name="deviceid" id="deviceid" size="40" value="rtmp://zhibolive.njxdkj.cn/njxdtv/StreamName"/>
+				<a class="button" tapmode="active" onclick="playUrl()">直播播放</a>
+				<a class="button" tapmode="active" onclick="playOrPause()">播放/暂停</a>
+				<a class="button" tapmode="active" onclick="stop()">停止</a>
+				<a class="button" tapmode="active" onclick="getDuration()">获取视频总时长</a>
+				<a class="button" tapmode="active" onclick="getCurrentPosition()">获取已播放时长</a>
+				<a class="button" tapmode="active" onclick="seekTo()">设置播放位置</a>
+				<a class="button" tapmode="active" onclick="onfullLive()">全屏直播播放</a>
+			</div>
+		</div>
+	</body>
+	<script>
+		var demo;
+
+		function playUrl() {
+			var _deviceid = document.getElementById("deviceid").value;
+			if(_deviceid==""){
+				alert("请输入拉流地址:");
+				return;
+			}
+			
+			demo.playUrl({
+				x : 0,
+				y : 0,
+				h : 250,
+				playUrl : _deviceid,
+//				playUrl : 'rtmp://zhibolive.njxdkj.cn/njxdtv/StreamName',
+//				playUrl : "http://7o50kb.com2.z0.glb.qiniucdn.com/c6.mp4",
+				timeout : 25000,
+				bufferDuration : 8000,
+				fixedOn : api.frameName,
+				fixed : true
+			}, function(ret, err) {
+				alert("playUrl>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+	
+		function playOrPause() {
+			demo.playOrPause(function(ret, err) {
+				alert("playOrPause>>" + JSON.stringify(ret));
+			});
+		}
+		
+		function stop() {
+			demo.stop(function(ret, err) {
+				alert("stop>>" + JSON.stringify(ret));
+			});
+		}
+		
+		function getDuration() {
+			demo.getDuration(function(ret, err) {
+				alert("getDuration>>" + JSON.stringify(ret));
+			});
+		}
+		
+		function getCurrentPosition() {
+			demo.getCurrentPosition(function(ret, err) {
+				alert("getCurrentPosition>>" + JSON.stringify(ret));
+			});
+		}
+		
+		function seekTo() {
+			demo.seekTo({
+				seek : 671100
+			}, function(ret, err) {
+				alert("seekTo>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function onfullLive(){
+			api.openWin({
+		        name: 'AliPlayMain',
+		        url: './AliPlayMain.html'
+	        });
+		}
+		
+		function apiready() {
+			demo = api.require('alivcPlay');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+			demo.addEventListener(function(ret, err) {
+				alert("addEventListener>>" + JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+			
+			api.setKeepScreenOn({
+			    keepOn: true
+			});
+		}
+	</script>
+</html>

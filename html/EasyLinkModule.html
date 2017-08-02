@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+        .input1 {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+            height: 32px;
+            margin: 8px;
+            background-color: rgba(240,240,240,1.0);
+            border-color: rgba(220,220,220,1.0);
+            border-width: 2px;
+            border-style: solid;
+        }
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<input type="text" class="input1" name="deviceid" id="deviceid" size="40" value="0987654321"/>
+				<a class="button" tapmode="active" onclick="addEventListener1()">监听设置</a>
+                <a class="button" tapmode="active" onclick="stopEventListener()">停止监听</a>
+				<a class="button" tapmode="active" onclick="startTransmitting()">开始配网</a>
+				<a class="button" tapmode="active" onclick="stopTransmitting()">停止配网</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var demo = null;
+		apiready = function() {
+			demo = api.require('easyLink');
+			if (!demo) {
+				alert("请添加模块后编译");
+				return;
+			}
+		}
+		function addEventListener1() {
+			demo.addEventListener(function(ret, err) {
+				api.toast({
+	                msg:JSON.stringify(ret)
+                });
+			});
+		}
+        function stopEventListener() {
+            demo.stopEventListener(function(ret, err) {
+                api.toast({
+                    msg:JSON.stringify(ret)
+                });
+            });
+        }
+    
+		function startTransmitting() {
+			var _deviceid = document.getElementById("deviceid").value;
+			if(_deviceid==""){
+				alert("请输入wifi密码");
+				return;
+			}
+			
+			demo.startTransmitting({
+				password : _deviceid
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+
+		function stopTransmitting() {
+			demo.stopTransmitting(function(ret, err) {
+				alert(JSON.stringify(ret) + "  " + JSON.stringify(err));
+			});
+		}
+	</script>
+</html>

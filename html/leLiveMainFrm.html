@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	</head>
+	<body></body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var demo;
+		apiready = function() {
+			api.parseTapmode();
+			demo = api.require('leCloudLive');
+			
+			var previewWidth = 800;
+			var previewHeight = 600;
+			if(api.systemType=='ios'){
+				previewWidth = api.frameWidth;
+				previewHeight = api.frameHeight;
+			}
+				
+				
+			demo.createPushUrl({
+				streamName : 'testpush'
+			}, function(ret, err) {
+				console.log(ret.playUrl);
+				var pushUrl = ret.pushUrl;
+				demo.customInitLive({
+					x : 0,
+					y : 0,
+					w : api.frameWidth,
+					h : api.frameHeight,
+					fixedOn : api.frameName,
+					fixed : true,
+					previewWidth:previewHeight,
+				    previewHeight:previewWidth,
+				    filterName : "美颜",//v2.0 add zhaofei  美颜 温暖 平静 浪漫 正常
+					isLandscape : false,
+					type : 2 //v2.0 add zhaofei 1:移动直播 2:标准直播
+				}, function(ret, err) {
+//					alert("customInitLive>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+					if(ret.status){
+						demo.getLiveMachines({
+							activityID : "A2017010900000gz"//A2016080100002ev   A2016080500003gk
+						}, function(ret, err) {
+//							alert("getLiveMachines>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+							if(ret.status){//&& ret.data
+								demo.customStartCloudLive({
+									machine : 1
+								}, function(ret, err) {
+//									alert("customStartCloudLive>>"+JSON.stringify(ret) + "   " + JSON.stringify(err));
+									alert("开始直播");
+								});
+							}
+						});
+					}
+				});
+			});
+			
+			
+			api.openFrame({
+				name : 'leLive_btn',
+				url : 'leLive_btn.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : 0,
+					h : api.frameHeight
+				},
+				bgColor : 'rgba(51,51,51,0)'
+			});
+			
+			 api.addEventListener({
+		        name:'LeLiveClose1'
+	        },function(ret,err){
+//	        	alert("LeLiveClose1..addEventListener");
+	        	demo.customStoplive(function(ret, err) {
+//					alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+					api.sendEvent({
+					    name: 'LeLiveClose'
+					});
+				});
+	        });
+		};
+	</script>
+</html>

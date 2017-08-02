@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<a class="button" tapmode="active" onclick="startService()">开启打印服务</a>
+				<a class="button" tapmode="active" onclick="printerInit()">初始化打印机</a>
+				<a class="button" tapmode="active" onclick="printerSelfChecking()">打印机自检</a>
+				<a class="button" tapmode="active" onclick="printData()">设置打印数据</a>
+				<a class="button" tapmode="active" onclick="lineWrap()">走纸行数</a>
+				<a class="button" tapmode="active" onclick="stopService()">停止打印服务</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var SunmiPrinter = null;
+		apiready = function() {
+			SunmiPrinter = api.require('sunmiPrinter');
+			alert(SunmiPrinter);
+		}
+		
+		function startService() {
+			SunmiPrinter.startService(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function printerSelfChecking() {
+			SunmiPrinter.printerSelfChecking(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function printerInit() {
+			SunmiPrinter.printerInit(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+		
+		function stopService() {
+			SunmiPrinter.stopService(function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function printData() {
+			SunmiPrinter.printData({
+				data : [{
+					rowtype : 'printColumnsText',
+					colsTextArr : ['名稱','數量','單價','金額'],
+					colsWidthArr : [10, 6, 6, 8],
+					colsAlign : [1, 2, 2, 2]
+				},{
+					rowtype : 'printColumnsText',
+					colsTextArr : ['草莓酸奶A布甸','4','12.00','48.00'],
+					colsWidthArr : [10, 6, 6, 8],
+					colsAlign : [0, 2, 2, 2]
+				},{
+					rowtype : 'printText',
+					text : '支付宝\n'
+				}, {
+					rowtype : 'printText',
+					text : 'Alipay\n'
+				}, {
+					rowtype : 'printText',
+					text : '===============================\n'
+				}, {
+					rowtype : 'printText',
+					text : '订单金额                 0.01元\n'
+				}, {
+					rowtype : 'printText',
+					text : '    参与优惠金额        0.01元\n'
+				}, {
+					rowtype : 'printText',
+					text : '商家实收\n'
+				}, {
+					rowtype : 'printText',
+					text : '-------------------------------\n'
+				}, {
+					rowtype : 'printText',
+					text : '开票金额(用户实付)   0.01元\n'
+				}, {
+					rowtype : 'printText',
+					text : '--------------------------------\n'
+				}, {
+					rowtype : 'printText',
+					text : '交易号:\n'
+				}, {
+					rowtype : 'printText',
+					text : '2016040621001004150224503623\n'
+				}, {
+					rowtype : 'printText',
+					text : '门店名称  正新鸡排(欢乐谷二店)\n'
+				}, {
+					rowtype : 'printText',
+					text : '买家帐号         1id***@21cn.com\n'
+				}, {
+					rowtype : 'printText',
+					text : '--------------------------------\n'
+				}, {
+					rowtype : 'printText',
+					text : '日期           2016-04-06 11:29\n'
+				}, {
+					rowtype : 'printText',
+					text : '--------------------------------\n'
+				}, {
+					rowtype : 'printText',
+					text : '此小票不需要用户签字\n'
+				}, {
+					rowtype : 'setFontSize',
+					fontsize : 32
+				}, {
+					rowtype : 'printText',
+					text : 'http://www.sunmi.com\n'
+				}, {
+					rowtype : 'printOriginalText',
+					text : 'http://www.sunmi.com\n'
+				}, {
+					rowtype : 'setFontSize',
+					fontsize : 24
+				}, {
+					rowtype : 'printText',
+					text : 'http://www.sunmi.com\n'
+				}, {
+					rowtype : 'printOriginalText',
+					text : 'http://www.sunmi.com\n'
+				}, {
+					rowtype : 'lineWrap',
+					n : 2
+				}, {
+					rowtype : 'setAlignment',
+					alignment : 1
+				}, {
+					rowtype : 'printBarCode',
+					data : '6921505036025',
+					width : 160,
+					height : 160
+				}, {
+					rowtype : 'setAlignment',
+					alignment : 1
+				}, {
+					rowtype : 'printQRCode',
+					data : 'http://www.sunmi.com',
+					size : 240
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 0
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 1
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 2
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 3
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 4
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 5
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 6
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 7
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 8
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 9
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 10
+				}, {
+					rowtype : 'printTypeHorizontalLine',
+					type : 11
+				}, {
+					rowtype : 'printBitmap',
+					image : 'widget://res/Images/1.jpg'
+				}, {
+					rowtype : 'lineWrap',
+					n : 3
+				}]
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		function lineWrap() {
+			SunmiPrinter.lineWrap({
+				line : 3
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		}
+
+		
+	</script>
+</html>

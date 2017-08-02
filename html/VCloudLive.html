@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Module Develop</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<style type="text/css">
+			html, body {
+				height: 100%
+			}
+			body {
+				background-color: #fff;
+				margin: 0;
+			}
+			#wrap {
+				height: 100%;
+				position: relative;
+			}
+			#header {
+				padding-top: 20px;
+				background-color: #5082c2;
+				height: 44px;
+				position: relative;
+			}
+			#header h1 {
+				font-size: 20px;
+				height: 44px;
+				line-height: 44px;
+				margin: 0em;
+				color: #fff;
+				margin-left: 100px;
+				margin-right: 100px;
+				text-align: center;
+			}
+			#main {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+			}
+			a.button {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+			a.active {
+				background-color: rgba(240,240,240,0.7);
+			}
+			.input1 {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				height: 32px;
+				margin: 8px;
+				background-color: rgba(240,240,240,1.0);
+				border-color: rgba(220,220,220,1.0);
+				border-width: 2px;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<a class="button" tapmode="active" onclick="requestMediaCapturerAccess()">app权限检查</a>
+				<a class="button" tapmode="active" onclick="pushLiveInit()">直播初始化</a>
+				<a class="button" tapmode="active" onclick="startLive()">开始直播</a>
+				<a class="button" tapmode="active" onclick="stopLive()">停止直播</a>
+				<a class="button" tapmode="active" onclick="closeLive()">关闭直播</a>
+				
+				<a class="button" tapmode="active" onclick="startMusic()">播放音乐</a>
+				<a class="button" tapmode="active" onclick="stopMusic()">停止音乐</a>
+				
+				<a class="button" tapmode="active" onclick="switchCamera()">切换摄像头</a>
+				<a class="button" tapmode="active" onclick="switchFlash()">开关闪光灯</a>
+				
+				<a class="button" tapmode="active" onclick="filterType('正常')">设置滤镜(正常)</a>
+				
+				<a class="button" tapmode="active" onclick="filterType('黑白')">设置滤镜(黑白-ios)</a>
+				<a class="button" tapmode="active" onclick="filterType('自然')">设置滤镜(自然-ios)</a>
+				<a class="button" tapmode="active" onclick="filterType('粉嫩')">设置滤镜(粉嫩-ios)</a>
+				<a class="button" tapmode="active" onclick="filterType('怀旧')">设置滤镜(怀旧-ios)</a>
+				<a class="button" tapmode="active" onclick="filterType('美颜')">设置滤镜(美颜-安卓)</a>
+				
+				<a class="button" tapmode="active" onclick="fullDemo()">全屏demo</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script>
+		var demo;
+		function requestMediaCapturerAccess() {
+			demo.requestMediaCapturerAccess(function(ret,err){
+               alert(JSON.stringify(ret) + "   " + JSON.stringify(err));                             
+            });
+		}
+		
+            
+		function pushLiveInit() {
+
+			demo.pushLiveInit({
+				x : 0,
+				y : 0,
+				h : 250,
+				fixedOn : api.frameName,
+				fixed : true,
+				orientation : 1,//1 PORTRAIT 2 UPDOWN 3 RIGHT 4 LEFT
+				cameraPosition : 1,//1 FRONT 2 BACK
+				bitrate : 500000,//码率
+				fps : 24,//帧率
+				streamingQuality : 4,//1 LOW低清 352*288 2 MEDIUM标清 480*360 3 HIGH高清 640*480 4 SUPER高清 960*540 5 SUPER_HIGH 超高清 (1280*720)
+				videoRenderMode : 2,//1 采集多大分辨率，则显示多大分辨率 2设置为16:9模式
+				pushUrl:"rtmp://pd43a08c7.live.126.net/live/9d880405af4d427983a9b374ee54bacb?wsSecret=51a67a8e34e93ca34d7da3627869c37d&wsTime=1485157199",
+				filterOn : true //是否开启滤镜
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function startLive() {
+			demo.startLive(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function stopLive() {
+			demo.stopLive(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function closeLive() {
+			demo.closeLive(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		
+		function startMusic() {
+			demo.startMusic({
+				//path:"widget://res/MP3s/shangxuege.mp3"
+				path : "fs://shangxuege.mp3"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+
+		function stopMusic() {
+			demo.stopMusic(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function switchCamera() {
+			demo.switchCamera(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function switchFlash() {
+			demo.switchFlash(function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		//@"正常"   ,@"黑白",@"自然",@"粉嫩",@"怀旧", ios   美颜 anzdoid
+		function filterType(filter) {
+			demo.filterType({
+				filter:filter
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+		
+		function fullDemo(){
+			api.openWin({
+	            name: 'liveMain',
+	            url: 'liveMain.html'
+            });
+		}
+		
+		function apiready() {
+			demo = api.require('vcloudLive');
+			if(!demo){
+				alert("请添加模块后编译");
+				return;
+			}
+			demo.addEventListener({
+				name:"liveErrorListener"
+			}, function(ret, err) {
+				alert(JSON.stringify(ret) + "   " + JSON.stringify(err));
+			});
+		}
+	</script>
+</html>
